@@ -107,7 +107,7 @@ public class LocationService : ILocationService
         var locations = await _locationRepository
             .SelectAll()
             .AsNoTracking()
-            .ToPagedList<Location>(@params)
+            .ToPagedList(@params)
             .ToListAsync();
 
         return _mapper.Map<IEnumerable<LocationForResultDto>>(locations);
