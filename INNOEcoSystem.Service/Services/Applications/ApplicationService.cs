@@ -22,15 +22,16 @@ public class ApplicationService : IApplicationService
 
     public async Task<ApplicationForResultDto> AddAsync(ApplicationForCreationDto dto)
     {
-        var application = await _applicationRepository.SelectAll()
-                .Where(a => a.DepartmentId == dto.DepartmentId && a.UserId == dto.UserId)
-                .FirstOrDefaultAsync();
+        var application = await _applicationRepository.SelectAsync(a => 
+                    a.DepartmentId == dto.DepartmentId && a.UserId == dto.UserId);
 
         if (application is not null)
             throw new INNOEcoSystemException(409, "Application is already exist.");
 
         var mappedApplication = _mapper.Map<Application>(dto);
         mappedApplication.CreatedAt = DateTime.UtcNow;
+
+        mappedApplication.Number = new Random().Next(1000000, 9999999);
 
         var createdApplication = await _applicationRepository.InsertAsync(mappedApplication);
         return _mapper.Map<ApplicationForResultDto>(createdApplication);
