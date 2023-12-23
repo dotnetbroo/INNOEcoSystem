@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace INNOEcoSystem.Data.Repositories;
 
-public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditable
+public class Repository<TEntity> : IApplicationRepository<TEntity> where TEntity : Auditable
 {
     AppDbContext dbContext;
     DbSet<TEntity> dbSet;
