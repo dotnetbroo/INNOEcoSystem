@@ -4,5 +4,6 @@ public enum UserRole
 {
     User = 0,
     Admin,
+    SuperAdmin,
     DepartmentAdmin
 }

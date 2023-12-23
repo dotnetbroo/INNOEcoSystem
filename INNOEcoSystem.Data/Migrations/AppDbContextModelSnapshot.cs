@@ -45,6 +45,9 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<long>("Number")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Presentation")
                         .HasColumnType("text");
 

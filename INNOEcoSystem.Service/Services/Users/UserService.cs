@@ -7,19 +7,23 @@ using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.DTOs.Users;
 using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.User;
+using INNOEcoSystem.Service.Services.Accaunts.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace INNOEcoSystem.Service.Services.Users;
 
 public class UserService : IUserService
 {
     private readonly IMapper _mapper;
+    private readonly IConfiguration configuration;
     private readonly IUserRepository _userRepository;
 
-    public UserService(IMapper mapper, IUserRepository userRepository)
+    public UserService(IMapper mapper, IUserRepository userRepository, IConfiguration configuration)
     {
         _mapper = mapper;
         _userRepository = userRepository;
+        this.configuration = configuration;
     }
 
     public async Task<UserForResultDto> AddAsync(UserForCreationDto dto)
@@ -45,6 +49,7 @@ public class UserService : IUserService
         mappedUser.Salt = hasherResult.Salt;
         mappedUser.Password = hasherResult.Hash;
         mappedUser.ProfilePicture = imageResult;
+        mappedUser.Role = 0;
 
         var result = await _userRepository.InsertAsync(mappedUser);
 
