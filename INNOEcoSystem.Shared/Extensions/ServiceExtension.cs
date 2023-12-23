@@ -1,4 +1,5 @@
 ﻿
+
 using INNOEcoSystem.Data.IRepositories;
 using INNOEcoSystem.Data.IRepositories.Categories;
 using INNOEcoSystem.Data.IRepositories.Locations;
@@ -30,6 +31,9 @@ public static class ServiceExtensions
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+        //Department 
+        services.AddScoped<IDepartmentService,DepartmentService>();
+        services.AddScoped<IDepartmentRepository,DepartmentRepository>();
         // Location
         services.AddScoped<ILocationService, LocationService>();
         services.AddScoped<ILocationRepository, LocationRepository>();

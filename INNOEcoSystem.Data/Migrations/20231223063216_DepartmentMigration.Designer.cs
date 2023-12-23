@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace INNOEcoSystem.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231222182519_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231223063216_DepartmentMigration")]
+    partial class DepartmentMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,11 +119,11 @@ namespace INNOEcoSystem.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("CategoryAsset")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsDeleed")
                         .HasColumnType("boolean");
@@ -195,7 +195,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Lacations.Location", b =>
+            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Location", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,7 +286,7 @@ namespace INNOEcoSystem.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("INNOEcoSystem.Domain.Entities.Users.User", "User")
-                        .WithMany()
+                        .WithMany("Applications")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -298,7 +298,7 @@ namespace INNOEcoSystem.Data.Migrations
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Assets.LocationAsset", b =>
                 {
-                    b.HasOne("INNOEcoSystem.Domain.Entities.Lacations.Location", "lacation")
+                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "lacation")
                         .WithMany("Assets")
                         .HasForeignKey("LacationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -315,7 +315,7 @@ namespace INNOEcoSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("INNOEcoSystem.Domain.Entities.Lacations.Location", "Lacation")
+                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "Lacation")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -328,7 +328,7 @@ namespace INNOEcoSystem.Data.Migrations
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Users.User", b =>
                 {
-                    b.HasOne("INNOEcoSystem.Domain.Entities.Lacations.Location", "Location")
+                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -337,9 +337,14 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Lacations.Location", b =>
+            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Location", b =>
                 {
                     b.Navigation("Assets");
+                });
+
+            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Users.User", b =>
+                {
+                    b.Navigation("Applications");
                 });
 #pragma warning restore 612, 618
         }
