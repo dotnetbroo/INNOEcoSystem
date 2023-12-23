@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using INNOEcoSystem.Data.IRepositories.LocationAssets;
 using INNOEcoSystem.Domain.Configurations;
-using INNOEcoSystem.Domain.Entities.Users;
+using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.DTOs.LocationsAsset;
 using INNOEcoSystem.Service.Exceptions;
-using INNOEcoSystem.Service.Helpers;
 using INNOEcoSystem.Service.Interfaces.LocationAssets;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;

@@ -4,6 +4,7 @@ using INNOEcoSystem.Service.DTOs.Locations;
 using INNOEcoSystem.Service.Interfaces.Location;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Service.DTOs.Categories;
+using INNOEcoSystem.Api.Controllers.Commons;
 
 namespace INNOEcoSystem.Api.Controllers.Locations
 {

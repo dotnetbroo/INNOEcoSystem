@@ -2,6 +2,6 @@
 
 namespace INNOEcoSystem.Data.IRepositories;
 
-public interface IApplicationRepository : IApplicationRepository<Application>
+public interface IApplicationRepository : IRepository<Application>
 {
 }

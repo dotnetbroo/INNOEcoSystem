@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using INNOEcoSystem.Service.Helpers;
 using Microsoft.EntityFrameworkCore;
 using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Domain.Configurations;
@@ -11,6 +10,7 @@ using INNOEcoSystem.Service.DTOs.DepartmentAssets;
 using INNOEcoSystem.Service.Interfaces.Department;
 using INNOEcoSystem.Data.IRepositories.Depsrtments;
 using INNOEcoSystem.Data.IRepositories.Categories;
+using INNOEcoSystem.Service.Commons.Helpers;
 
 namespace INNOEcoSystem.Service.Services;
 
@@ -34,7 +34,7 @@ public  class DepartmentService : IDepartmentService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (department is not  null || department?.IsDeleed == true)
+        if (department is not  null || department?.IsDeleted == true)
             throw new INNOEcoSystemException(404, "Department is not found");
 
         var category = await _categoryRepository.SelectAll()
@@ -42,7 +42,7 @@ public  class DepartmentService : IDepartmentService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (category is null || category?.IsDeleed == true)
+        if (category is null || category?.IsDeleted == true)
             throw new INNOEcoSystemException(404, "Category is not found");
 
         
@@ -124,21 +124,21 @@ public  class DepartmentService : IDepartmentService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (department is null || department.IsDeleed == true)
+        if (department is null || department.IsDeleted == true)
             throw new INNOEcoSystemException(404, "Department is not found");
 
-        department.IsDeleed = true;
+        department.IsDeleted = true;
         var mappedDepartment = _mapper.Map<Department>(department);
         var deleteDepartment = await _departmentRepository.UpdateAsync(mappedDepartment);
 
-        return deleteDepartment.IsDeleed;
+        return deleteDepartment.IsDeleted;
 
     }
 
     public async Task<IEnumerable<DepartmentForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var departments = await _departmentRepository.SelectAll()
-            .Where(d => d.IsDeleed == false)
+            .Where(d => d.IsDeleted == false)
             .AsNoTracking()
             .ToPagedList(@params)
             .ToListAsync();
@@ -155,7 +155,7 @@ public  class DepartmentService : IDepartmentService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (department is null || department.IsDeleed == true)
+        if (department is null || department.IsDeleted == true)
             throw new INNOEcoSystemException(404, "Department is not found");
 
         return _mapper.Map<DepartmentForResultDto>(department);
@@ -168,7 +168,7 @@ public  class DepartmentService : IDepartmentService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (department is null || department.IsDeleed == true)
+        if (department is null || department.IsDeleted == true)
             throw new INNOEcoSystemException(404, "Department is not found");
 
         var mappedDepartment = _mapper.Map<Department>(departmentForUpdateDto);
@@ -185,7 +185,7 @@ public  class DepartmentService : IDepartmentService
            .Where(e => e.Id == id)
            .FirstOrDefaultAsync();
 
-        if (department is null || department.IsDeleed == true)
+        if (department is null || department.IsDeleted == true)
             throw new INNOEcoSystemException(404, "Department is not found");
 
         if (!string.IsNullOrEmpty(department.License))

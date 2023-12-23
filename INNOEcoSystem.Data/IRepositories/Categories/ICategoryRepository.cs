@@ -2,7 +2,7 @@
 
 namespace INNOEcoSystem.Data.IRepositories.Categories;
 
-public interface ICategoryRepository : IApplicationRepository<Category>
+public interface ICategoryRepository : IRepository<Category>
 {
 
 }
