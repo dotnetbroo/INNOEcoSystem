@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace INNOEcoSystem.Data.IRepositories;
 
-public interface IRepository<TEntity> where TEntity : Auditable
+public interface IApplicationRepository<TEntity> where TEntity : Auditable
 {
     Task<bool> DeleteAsync(long id);
     Task<TEntity> UpdateAsync(TEntity entity);
