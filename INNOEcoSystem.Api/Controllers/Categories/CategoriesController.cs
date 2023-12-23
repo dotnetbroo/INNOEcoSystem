@@ -33,6 +33,6 @@ public class CategoriesController : BaseController
         => Ok(await this._categoryService.RemoveAsync(id));
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] [FromForm] CategoryForUpdateDto dto)
-        => Ok(await this._categoryService.ModifyAsync(dto));
+    public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromForm] CategoryForUpdateDto dto)
+        => Ok(await this._categoryService.ModifyAsync(id, dto));
 }

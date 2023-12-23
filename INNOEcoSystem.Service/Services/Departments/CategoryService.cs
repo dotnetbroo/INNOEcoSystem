@@ -56,12 +56,9 @@ public class CategoryService : ICategoryService
 
     }
 
-    public async Task<CategoryForResultDto> ModifyAsync(CategoryForUpdateDto dto)
+    public async Task<CategoryForResultDto> ModifyAsync(long id, CategoryForUpdateDto dto)
     {
-        var categoryToUpdate = await _categoryRepository.SelectAll()
-            .Where(c => c.Name.ToLower() == dto.Name.ToLower())
-            .AsNoTracking()
-            .FirstOrDefaultAsync();
+        var categoryToUpdate = await _categoryRepository.SelectAsync(u => u.Id == id);
 
         if (categoryToUpdate is not null)
             throw new INNOEcoSystemException(404, "Category is not found");
