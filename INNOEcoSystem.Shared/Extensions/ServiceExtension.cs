@@ -1,11 +1,13 @@
 using INNOEcoSystem.Data.IRepositories;
 using INNOEcoSystem.Data.IRepositories.Categories;
 using INNOEcoSystem.Data.IRepositories.Depsrtments;
+using INNOEcoSystem.Data.IRepositories.LocationAssets;
 using INNOEcoSystem.Data.IRepositories.Locations;
 using INNOEcoSystem.Data.IRepositories.Users;
 using INNOEcoSystem.Data.Repositories;
 using INNOEcoSystem.Data.Repositories.Categories;
 using INNOEcoSystem.Data.Repositories.Departments;
+using INNOEcoSystem.Data.Repositories.LocationAssets;
 using INNOEcoSystem.Data.Repositories.Locations;
 using INNOEcoSystem.Data.Repositories.Users;
 using INNOEcoSystem.Service.Interfaces.Accaunts;
@@ -15,6 +17,7 @@ using INNOEcoSystem.Service.Interfaces.Commons;
 using INNOEcoSystem.Service.Interfaces.Department;
 using INNOEcoSystem.Service.Interfaces.Departments;
 using INNOEcoSystem.Service.Interfaces.Location;
+using INNOEcoSystem.Service.Interfaces.LocationAssets;
 using INNOEcoSystem.Service.Interfaces.Locations;
 using INNOEcoSystem.Service.Interfaces.User;
 using INNOEcoSystem.Service.Services;
@@ -65,6 +68,10 @@ public static class ServiceExtensions
 
         // Application
         services.AddScoped<IApplicationService, ApplicationService>();
+
+        //LocationAsset
+        services.AddScoped<ILocationAssetRepository,LocationAssetRepository>();
+        services.AddScoped<ILocationAssetService, LocationAssetService>();
 
         // Email
         services.AddScoped<IAuthService, AuthService>();

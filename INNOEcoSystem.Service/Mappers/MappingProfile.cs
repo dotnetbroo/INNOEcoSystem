@@ -10,6 +10,8 @@ using INNOEcoSystem.Service.DTOs.Department;
 using INNOEcoSystem.Service.DTOs.Departments;
 using INNOEcoSystem.Service.DTOs.Locations;
 using INNOEcoSystem.Service.DTOs.Users;
+using INNOEcoSystem.Domain.Entities.Assets;
+using INNOEcoSystem.Service.DTOs.LocationsAsset;
 
 namespace INNOEcoSystem.Service.Mappers;
 
@@ -48,5 +50,8 @@ public class MappingProfile : Profile
         CreateMap<Application, ApplicationForCreationDto>().ReverseMap();
         CreateMap<Application, ApplicationForResultDto>().ReverseMap();
         CreateMap<Application, ApplicationForUpdateDto>().ReverseMap();
+
+        //LocationAsset
+        CreateMap<LocationAsset,LocationAssetForResultDto>().ReverseMap();
     }
 }

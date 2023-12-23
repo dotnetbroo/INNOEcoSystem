@@ -1,9 +1,9 @@
 ﻿using INNOEcoSystem.Domain.Entities.Applications;
 using INNOEcoSystem.Domain.Entities.Departments;
 using INNOEcoSystem.Domain.Entities.Assets;
-using INNOEcoSystem.Domain.Entities.Locations;
-using INNOEcoSystem.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
+using INNOEcoSystem.Domain.Entities.Users;
+using INNOEcoSystem.Domain.Entities.Locations;
 
 namespace INNOEcoSystem.Data.DbContexts;
 

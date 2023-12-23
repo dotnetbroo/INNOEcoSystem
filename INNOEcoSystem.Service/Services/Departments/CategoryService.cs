@@ -32,7 +32,7 @@ public class CategoryService : ICategoryService
             .FirstOrDefaultAsync();
 
         if (existingCategory is not null)
-            throw new INNOEcoSystemException(404, "Category is not found");
+            throw new INNOEcoSystemException(400, "Category is already exists");
 
         #region Image
         var imageFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Image.FileName);
