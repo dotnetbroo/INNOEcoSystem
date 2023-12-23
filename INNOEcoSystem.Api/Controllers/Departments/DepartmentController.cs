@@ -47,11 +47,11 @@ namespace INNOEcoSystem.Api.Controllers.Departments
         public async Task<IActionResult> CreateLogoAsync([FromRoute(Name = "id")] long id, [FromForm] DepartmentAssetForCreationDto file)
             => Ok(await _departmentService.CreateLogoAsync(id, file));
 
-        [HttpPut("Department/License/{id}")]
+        [HttpPatch("Department/License/{id}")]
         public async Task<IActionResult> UpdateLicenseAsync([FromRoute(Name = "id")] long id, [FromForm] DepartmentAssetForCreationDto file)
            => Ok(await _departmentService.UpdateLicenseAsync(id, file));
 
-        [HttpPut("Department/Logo/{id}")]
+        [HttpPatch("Department/Logo/{id}")]
         public async Task<IActionResult> UpdateLogoAsync([FromRoute(Name = "id")] long id, [FromForm] DepartmentAssetForCreationDto file)
             => Ok(await _departmentService.UpdateLogoAsync(id, file));
 

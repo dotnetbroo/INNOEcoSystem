@@ -1,5 +1,4 @@
 ﻿using INNOEcoSystem.Domain.Configurations;
-using INNOEcoSystem.Service.DTOs.Categories;
 using INNOEcoSystem.Service.DTOs.Locations;
 
 namespace INNOEcoSystem.Service.Interfaces.Location;
