@@ -42,7 +42,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Presentation")
@@ -80,7 +80,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Extension")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<long>("LacationId")
@@ -122,7 +122,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -159,7 +159,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<string>("License")
@@ -206,14 +206,14 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("Latitude")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("numeric");
 
-                    b.Property<long>("LongiTude")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("LongiTude")
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -240,8 +240,9 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
-                        .HasColumnType("boolean");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");

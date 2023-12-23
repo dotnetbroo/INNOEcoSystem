@@ -27,6 +27,7 @@
     <Folder Include="wwwroot\Media\Categories\Images\" />
     <Folder Include="wwwroot\Media\Departments\Licenses\" />
     <Folder Include="wwwroot\Media\Departments\Logos\" />
+    <Folder Include="wwwroot\Media\UserProfilePictures\Images\" />
   </ItemGroup>
 
 </Project>

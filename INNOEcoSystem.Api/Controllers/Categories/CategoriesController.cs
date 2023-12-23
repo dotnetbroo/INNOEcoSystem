@@ -2,6 +2,7 @@
 using INNOEcoSystem.Service.Interfaces.Departments;
 using Microsoft.AspNetCore.Mvc;
 using INNOEcoSystem.Domain.Configurations;
+using INNOEcoSystem.Api.Controllers.Commons;
 
 namespace INNOEcoSystem.Api.Controllers.Categories;
 

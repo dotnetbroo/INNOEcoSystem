@@ -11,8 +11,9 @@ public class UserForUpdateDto
     [Required(ErrorMessage = "LastName is required")]
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
-    public IFormFile ProfilePicture { get; set; }
 
     [Required(ErrorMessage = "Location is required")]
     public long LocationId { get; set; }
+
+    public IFormFile ProfilePicture { get; set; }
 }
