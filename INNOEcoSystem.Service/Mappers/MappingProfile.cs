@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using INNOEcoSystem.Domain.Entities.Applications;
 using INNOEcoSystem.Domain.Entities.Departments;
 using INNOEcoSystem.Domain.Entities.Locations;
 using INNOEcoSystem.Domain.Entities.Users;
+using INNOEcoSystem.Service.DTOs.Applications;
 using INNOEcoSystem.Service.DTOs.Categories;
 using INNOEcoSystem.Service.DTOs.Locations;
 using INNOEcoSystem.Service.DTOs.Users;
@@ -22,9 +24,16 @@ public class MappingProfile : Profile
         CreateMap<Category, CategoryForUpdateDto>().ReverseMap();
         CreateMap<Category, CategoryForResultDto>().ReverseMap();
 
+
         // Location
         CreateMap<Location, LocationForCreationDto>().ReverseMap();
         CreateMap<Location, LocationForUpdateDto>().ReverseMap();
         CreateMap<Location, LocationForResultDto>().ReverseMap();
+
+        // Application
+        CreateMap<Application, ApplicationForCreationDto>().ReverseMap();
+        CreateMap<Application, ApplicationForResultDto>().ReverseMap();
+        CreateMap<Application, ApplicationForUpdateDto>().ReverseMap();
+
     }
 }
