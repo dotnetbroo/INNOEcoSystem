@@ -1,3 +1,4 @@
+using INNOEcoSystem.Api.Extensions;
 using INNOEcoSystem.Data.DbContexts;
 using INNOEcoSystem.Models.Middlewares;
 using INNOEcoSystem.Service.Commons.Helpers;
@@ -21,6 +22,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+// swagger set up
+builder.Services.AddSwaggerService();
+// JWT service
+builder.Services.AddJwtService(builder.Configuration);
+
+
 // Logger
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -28,6 +35,17 @@ var logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+
+// CORS
+builder.Services.ConfigureCors();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admins", policy =>
+    {
+        policy.RequireRole("Admin", "SuperAdmin");
+    });
+});
 
 // Configure api url name
 builder.Services.AddControllers(options =>
@@ -53,12 +71,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAll");
+app.UseStaticFiles();
 app.UseMiddleware<ExceptionHandlerMiddleWare>();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
-
 
 app.MapControllers();
 
