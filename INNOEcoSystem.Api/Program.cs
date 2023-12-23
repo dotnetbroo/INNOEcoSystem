@@ -37,7 +37,7 @@ builder.Services.AddControllers(options =>
 });
 
 
-
+builder.Services.AddMemoryCache();
 builder.Services.AddCustomServices();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

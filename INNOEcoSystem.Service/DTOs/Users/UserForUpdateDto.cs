@@ -10,10 +10,11 @@ public class UserForUpdateDto
     public string FirstName { get; set; }
     [Required(ErrorMessage = "LastName is required")]
     public string LastName { get; set; }
+    [Required(ErrorMessage = "Phone number is required")]
     public string PhoneNumber { get; set; }
 
-    [Required(ErrorMessage = "Location is required")]
-    public long LocationId { get; set; }
+    [Required(ErrorMessage = "Address is required")]
+    public long AddressId { get; set; }
 
     public IFormFile ProfilePicture { get; set; }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using INNOEcoSystem.Data.IRepositories;
+using INNOEcoSystem.Data.IRepositories.Users;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Domain.Entities.Users;
 using INNOEcoSystem.Service.Commons.Extensions;
@@ -8,17 +8,15 @@ using INNOEcoSystem.Service.DTOs.Users;
 using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.User;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Data.Common;
 
 namespace INNOEcoSystem.Service.Services.Users;
 
 public class UserService : IUserService
 {
     private readonly IMapper _mapper;
-    private readonly IRepository<User> _userRepository;
+    private readonly IUserRepository _userRepository;
 
-    public UserService(IMapper mapper, IRepository<User> userRepository)
+    public UserService(IMapper mapper, IUserRepository userRepository)
     {
         _mapper = mapper;
         _userRepository = userRepository;
@@ -51,6 +49,42 @@ public class UserService : IUserService
         var result = await _userRepository.InsertAsync(mappedUser);
 
         return this._mapper.Map<UserForResultDto>(result);
+    }
+
+    public async Task<bool> ChangePasswordAsync(string email, UserForChangePasswordDto dto)
+    {
+        var user = await _userRepository.SelectAsync(u => u.Email == email);
+        if (user is null || !PasswordHelper.Verify(dto.OldPassword, user.Salt, user.Password))
+            throw new INNOEcoSystemException(404, "User or Password is incorrect");
+        else if (dto.NewPassword != dto.ConfirmPassword)
+            throw new INNOEcoSystemException(400, "New password and confir password aren't equal");
+
+        var hash = PasswordHelper.Hash(dto.ConfirmPassword);
+        user.Salt = hash.Salt;
+        user.Password = hash.Hash;
+        var updated = await _userRepository.UpdateAsync(user);
+
+        return true;
+    }
+
+    public async Task<bool> ForgetPasswordAsync(string PhoneNumber, string NewPassword, string ConfirmPassword)
+    {
+        var user = await _userRepository.SelectAsync(u => u.PhoneNumber == PhoneNumber);
+
+        if (user is null)
+            throw new INNOEcoSystemException(404, "User not found");
+
+        if (NewPassword != ConfirmPassword)
+            throw new INNOEcoSystemException(400, "New password and confirm password aren't equal");
+
+        var hash = PasswordHelper.Hash(NewPassword);
+
+        user.Salt = hash.Salt;
+        user.Password = hash.Hash;
+
+        var updated = _userRepository.UpdateAsync(user);
+
+        return true;
     }
 
     public async Task<UserForResultDto> ModifyAsync(long id, UserForUpdateDto dto)
@@ -96,13 +130,25 @@ public class UserService : IUserService
         user.IsDeleted = true;
         await _userRepository.UpdateAsync(user);
 
-        return true ;
+        return true;
     }
 
     public async Task<IEnumerable<UserForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
         var users = await _userRepository.SelectAll()
             .Where(u => u.IsDeleted == false)
+            .Include(ua => ua.Applications)
+            .AsNoTracking()
+            .ToPagedList(@params)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<UserForResultDto>>(users);
+    }
+
+    public async Task<IEnumerable<UserForResultDto>> RetrieveAllDeletedUsersAsync(PaginationParams @params)
+    {
+        var users = await _userRepository.SelectAll()
+            .Where(u => u.IsDeleted == true)
             .Include(ua => ua.Applications)
             .AsNoTracking()
             .ToPagedList(@params)

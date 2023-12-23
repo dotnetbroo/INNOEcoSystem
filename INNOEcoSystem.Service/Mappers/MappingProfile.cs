@@ -5,6 +5,7 @@ using INNOEcoSystem.Domain.Entities.Locations;
 using INNOEcoSystem.Domain.Entities.Users;
 using INNOEcoSystem.Service.DTOs.Applications;
 using INNOEcoSystem.Service.DTOs.Categories;
+using INNOEcoSystem.Service.DTOs.Address;
 using INNOEcoSystem.Service.DTOs.Department;
 using INNOEcoSystem.Service.DTOs.Departments;
 using INNOEcoSystem.Service.DTOs.Locations;
@@ -20,11 +21,18 @@ public class MappingProfile : Profile
         CreateMap<User, UserForResultDto>().ReverseMap();
         CreateMap<User, UserForUpdateDto>().ReverseMap();
         CreateMap<User, UserForCreationDto>().ReverseMap();
+        CreateMap<User, UserForChangePasswordDto>().ReverseMap();
 
         // Category
         CreateMap<Category, CategoryForCreationDto>().ReverseMap();
         CreateMap<Category, CategoryForUpdateDto>().ReverseMap();
         CreateMap<Category, CategoryForResultDto>().ReverseMap();
+
+        // UserAddress
+        CreateMap<Address, AddressForResultDto>().ReverseMap();
+        CreateMap<Address, AddressForUpdateDto>().ReverseMap();
+        CreateMap<Address, AddressForCreationDto>().ReverseMap();
+        
 
         //Department
         CreateMap<Department,DepartmentForCreationDto>().ReverseMap();
@@ -40,6 +48,5 @@ public class MappingProfile : Profile
         CreateMap<Application, ApplicationForCreationDto>().ReverseMap();
         CreateMap<Application, ApplicationForResultDto>().ReverseMap();
         CreateMap<Application, ApplicationForUpdateDto>().ReverseMap();
-
     }
 }
