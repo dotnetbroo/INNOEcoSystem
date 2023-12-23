@@ -10,6 +10,6 @@ public  class LocationAsset : Auditable
     public string Extension { get; set; }
     public long Size { get; set; }
     public string Type { get; set; }
-    public long LacationId { get; set; }
-    public Location lacation { get; set; }
+    public long LocationId { get; set; }
+    public Location Location { get; set; }
 }
