@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace INNOEcoSystem.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231222185155_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20231223093756_LocationEntityUpdate")]
+    partial class LocationEntityUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,7 +195,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Lacations.Location", b =>
+            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Location", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,11 +212,11 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<bool>("IsDeleed")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("Latitude")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("numeric");
 
-                    b.Property<long>("LongiTude")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("LongiTude")
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -286,7 +286,7 @@ namespace INNOEcoSystem.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("INNOEcoSystem.Domain.Entities.Users.User", "User")
-                        .WithMany()
+                        .WithMany("Applications")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -298,7 +298,7 @@ namespace INNOEcoSystem.Data.Migrations
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Assets.LocationAsset", b =>
                 {
-                    b.HasOne("INNOEcoSystem.Domain.Entities.Lacations.Location", "lacation")
+                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "lacation")
                         .WithMany("Assets")
                         .HasForeignKey("LacationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -315,7 +315,7 @@ namespace INNOEcoSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("INNOEcoSystem.Domain.Entities.Lacations.Location", "Lacation")
+                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "Lacation")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -328,7 +328,7 @@ namespace INNOEcoSystem.Data.Migrations
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Users.User", b =>
                 {
-                    b.HasOne("INNOEcoSystem.Domain.Entities.Lacations.Location", "Location")
+                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -337,9 +337,14 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Lacations.Location", b =>
+            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Location", b =>
                 {
                     b.Navigation("Assets");
+                });
+
+            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Users.User", b =>
+                {
+                    b.Navigation("Applications");
                 });
 #pragma warning restore 612, 618
         }

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\INNOEcoSystem.Domain\INNOEcoSystem.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\NewFolder\" />
+  </ItemGroup>
+
 </Project>
