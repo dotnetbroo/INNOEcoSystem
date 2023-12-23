@@ -36,7 +36,7 @@ public class AddressService : IAddressService
 
     public async Task<AddressForResultDto> ModifyAsync(long id, AddressForUpdateDto dto)
     {
-        var userAddress = await _addressRepository.SelectAsync(u => u.Id == id);
+        var userAddress = await _addressRepository.SelectAsync(u => u.Id == id && u.IsDeleted == false);
         if (userAddress is null)
             throw new INNOEcoSystemException(404, "Address is not found.");
 

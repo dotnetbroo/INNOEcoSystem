@@ -9,5 +9,5 @@ public interface ICategoryService
     Task<CategoryForResultDto> RetrieveByIdAsync(long id);
     Task<IEnumerable<CategoryForResultDto>> RetrieveAllAsync(PaginationParams @params);
     Task<CategoryForResultDto> CreateAsync(CategoryForCreationDto dto);
-    Task<CategoryForResultDto> ModifyAsync(CategoryForUpdateDto dto);
+    Task<CategoryForResultDto> ModifyAsync(long id, CategoryForUpdateDto dto);
 }
