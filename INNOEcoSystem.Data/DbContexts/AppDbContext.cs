@@ -20,4 +20,11 @@ public class AppDbContext : DbContext
     public DbSet<Category> DepartmentCategories { get; set; }
 
 
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .Property(u => u.IsDeleted)
+            .HasColumnName("IsDeleted");
+    }
 }
