@@ -3,6 +3,7 @@ using System;
 using INNOEcoSystem.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace INNOEcoSystem.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231223093756_LocationEntityUpdate")]
+    partial class LocationEntityUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +45,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsDeleed")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Presentation")
@@ -80,7 +83,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Extension")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsDeleed")
                         .HasColumnType("boolean");
 
                     b.Property<long>("LacationId")
@@ -122,7 +125,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsDeleed")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -159,7 +162,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsDeleed")
                         .HasColumnType("boolean");
 
                     b.Property<string>("License")
@@ -206,7 +209,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsDeleed")
                         .HasColumnType("boolean");
 
                     b.Property<decimal>("Latitude")
@@ -240,9 +243,8 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("IsDeleted");
+                    b.Property<bool>("IsDeleed")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
