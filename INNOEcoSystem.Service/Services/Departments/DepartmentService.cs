@@ -118,7 +118,7 @@ public  class DepartmentService : IDepartmentService
 
         string bannerPath = Path.Combine("Media", "Departments", "Logos", fileName);
 
-        department.License = bannerPath;
+        department.Logo = bannerPath;
 
         var mappedDepartment = _mapper.Map<Department>(department);
         var communityResult = await _departmentRepository.UpdateAsync(mappedDepartment);

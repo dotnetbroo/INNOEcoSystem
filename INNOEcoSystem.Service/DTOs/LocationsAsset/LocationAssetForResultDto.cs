@@ -11,5 +11,5 @@ public class LocationAssetForResultDto
     public long Size { get; set; }
     public string Type { get; set; }
     public long LacationId { get; set; }
-    //public LocationForResultDto Location { get; set; }
+    
 }
