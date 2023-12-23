@@ -4,9 +4,9 @@ using INNOEcoSystem.Data.IRepositories.Depsrtments;
 
 namespace INNOEcoSystem.Data.Repositories.Departments;
 
-public class DepartmentRepositorycs : Repository<Department>, IDepartmentRepository
+public class DepartmentRepository : Repository<Department>, IDepartmentRepository
 {
-    public DepartmentRepositorycs(AppDbContext dbContext) : base(dbContext)
+    public DepartmentRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
 }

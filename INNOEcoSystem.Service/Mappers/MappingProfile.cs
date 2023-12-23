@@ -2,6 +2,8 @@
 using INNOEcoSystem.Domain.Entities.Departments;
 using INNOEcoSystem.Domain.Entities.Users;
 using INNOEcoSystem.Service.DTOs.Categories;
+using INNOEcoSystem.Service.DTOs.Department;
+using INNOEcoSystem.Service.DTOs.Departments;
 using INNOEcoSystem.Service.DTOs.Users;
 
 namespace INNOEcoSystem.Service.Mappers;
@@ -19,5 +21,10 @@ public class MappingProfile : Profile
         CreateMap<Category, CategoryForCreationDto>().ReverseMap();
         CreateMap<Category, CategoryForUpdateDto>().ReverseMap();
         CreateMap<Category, CategoryForResultDto>().ReverseMap();
+
+        //Department
+        CreateMap<Department,DepartmentForCreationDto>().ReverseMap();
+        CreateMap<Department,DepartmentForResultDto>().ReverseMap();
+        CreateMap<Department,DepartmentForUpdateDto>().ReverseMap();
     }
 }
