@@ -1,5 +1,4 @@
-﻿using INNOEcoSystem.Domain.Enums;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace INNOEcoSystem.Service.DTOs.Users;
