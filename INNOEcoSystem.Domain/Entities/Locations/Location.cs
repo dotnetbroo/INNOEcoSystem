@@ -9,5 +9,6 @@ public class Location : Auditable
     public decimal LongiTude { get; set; }
     public decimal Latitude { get; set; }
 
+
     public ICollection<LocationAsset> LacationAssets { get; set; }
 }
