@@ -9,7 +9,6 @@ public class ApplicationForResultDto
     public long Id { get; set; }
     public long Number { get; set; }
     public long DepartmentId { get; set; }
-    public Department Department { get; set; }
 
     public long UserId { get; set; }
     public User User { get; set; }

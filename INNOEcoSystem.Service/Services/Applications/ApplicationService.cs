@@ -12,9 +12,9 @@ namespace INNOEcoSystem.Service.Services.Applications;
 public class ApplicationService : IApplicationService
 {
     private readonly IMapper _mapper;
-    private readonly IApplicationRepository<Application> _applicationRepository;
+    private readonly IApplicationRepository _applicationRepository;
 
-    public ApplicationService(IMapper mapper, IApplicationRepository<Application> applicationRepository)
+    public ApplicationService(IMapper mapper, IApplicationRepository applicationRepository)
     {
         _mapper = mapper;
         _applicationRepository = applicationRepository;

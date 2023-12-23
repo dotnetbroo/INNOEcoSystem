@@ -8,7 +8,6 @@ public class ApplicationForUpdateDto
 {
     public long Number { get; set; }
     public long DepartmentId { get; set; }
-    public Department Department { get; set; }
 
     public long UserId { get; set; }
     public User User { get; set; }

@@ -4,10 +4,11 @@ using INNOEcoSystem.Service.DTOs.Department;
 using INNOEcoSystem.Service.DTOs.Departments;
 using INNOEcoSystem.Service.DTOs.DepartmentAssets;
 using INNOEcoSystem.Service.Interfaces.Department;
+using INNOEcoSystem.Api.Controllers.Commons;
 
 namespace INNOEcoSystem.Api.Controllers.Departments
 {
-    public  class DepartmentController :BaseController
+    public  class DepartmentController : BaseController
     {
         private readonly IDepartmentService _departmentService;
 

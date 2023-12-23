@@ -17,6 +17,10 @@ using INNOEcoSystem.Service.Interfaces.User;
 using INNOEcoSystem.Service.Services.Applications;
 using INNOEcoSystem.Service.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
+using INNOEcoSystem.Service.Interfaces.Department;
+using INNOEcoSystem.Service.Services;
+using INNOEcoSystem.Data.IRepositories.Depsrtments;
+using INNOEcoSystem.Data.Repositories.Departments;
 
 namespace INNOEcoSystem.Shared.Extensions;
 

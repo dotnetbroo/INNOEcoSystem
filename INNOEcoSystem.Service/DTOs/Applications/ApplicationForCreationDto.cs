@@ -7,7 +7,6 @@ namespace INNOEcoSystem.Service.DTOs.Applications;
 public class ApplicationForCreationDto
 {
     public long DepartmentId { get; set; }
-    public Department Department { get; set; }
 
     public long UserId { get; set; }
     public User User { get; set; }
