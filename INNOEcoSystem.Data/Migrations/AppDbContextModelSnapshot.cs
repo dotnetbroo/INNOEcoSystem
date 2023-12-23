@@ -45,6 +45,9 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<long>("Number")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Presentation")
                         .HasColumnType("text");
 
@@ -86,6 +89,9 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<long>("LacationId")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("LocationId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -103,7 +109,7 @@ namespace INNOEcoSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LacationId");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("LacationAssets");
                 });
@@ -327,13 +333,11 @@ namespace INNOEcoSystem.Data.Migrations
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Assets.LocationAsset", b =>
                 {
-                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "lacation")
-                        .WithMany("Assets")
-                        .HasForeignKey("LacationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "Location")
+                        .WithMany("LacationAssets")
+                        .HasForeignKey("LocationId");
 
-                    b.Navigation("lacation");
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Departments.Department", b =>
@@ -373,7 +377,7 @@ namespace INNOEcoSystem.Data.Migrations
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Location", b =>
                 {
-                    b.Navigation("Assets");
+                    b.Navigation("LacationAssets");
                 });
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Users.User", b =>

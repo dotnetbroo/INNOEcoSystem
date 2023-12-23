@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using INNOEcoSystem.Data.IRepositories.Locations;
+using Microsoft.EntityFrameworkCore;
+using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Domain.Configurations;
+using INNOEcoSystem.Service.DTOs.Locations;
 using INNOEcoSystem.Domain.Entities.Locations;
 using INNOEcoSystem.Service.Commons.Extensions;
-using INNOEcoSystem.Service.DTOs.Locations;
-using INNOEcoSystem.Service.Exceptions;
+using INNOEcoSystem.Data.IRepositories.Locations;
 using INNOEcoSystem.Service.Interfaces.Location;
-using Microsoft.EntityFrameworkCore;
 
 namespace INNOEcoSystem.Service.Services.Locations;
 
@@ -22,20 +22,7 @@ public class LocationService : ILocationService
         _mapper = mapper;
         _locationRepository = locationRepository;
     }
-    LocationService(ILocationRepository locationRepository)
-    {
-        _locationRepository = locationRepository;
-    }
-
-    public void SaveLocation(Location location)
-    {
-        _locationRepository.InsertAsync(location);
-    }
-
-    public IEnumerable<Location> GetLocations()
-    {
-        return _locationRepository.SelectAll();
-    }
+   
     public async Task<LocationForResultDto> CreateAsync(LocationForCreationDto dto)
     {
         var existingLocation = await _locationRepository.SelectAll()
@@ -83,7 +70,6 @@ public class LocationService : ILocationService
 
         var mapped = _mapper.Map(dto, location);
         mapped.UpdatedAt = DateTime.UtcNow;
-
         await _locationRepository.UpdateAsync(mapped);
 
         return _mapper.Map<LocationForResultDto>(mapped);
@@ -106,8 +92,9 @@ public class LocationService : ILocationService
     {
         var locations = await _locationRepository
             .SelectAll()
+            .Include(l=>l.LacationAssets)
             .AsNoTracking()
-            .ToPagedList<Location>(@params)
+            .ToPagedList(@params)
             .ToListAsync();
 
         return _mapper.Map<IEnumerable<LocationForResultDto>>(locations);
@@ -117,6 +104,7 @@ public class LocationService : ILocationService
     {
         var location = await _locationRepository.SelectAll()
             .Where(l => l.Id == id)
+            .Include(l=>l.LacationAssets)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
