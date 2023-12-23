@@ -5,10 +5,12 @@ using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Service.DTOs.Department;
 using INNOEcoSystem.Service.DTOs.Departments;
+using INNOEcoSystem.Service.Commons.Extensions;
 using INNOEcoSystem.Domain.Entities.Departments;
 using INNOEcoSystem.Service.DTOs.DepartmentAssets;
 using INNOEcoSystem.Service.Interfaces.Department;
 using INNOEcoSystem.Data.IRepositories.Depsrtments;
+using INNOEcoSystem.Data.IRepositories.Categories;
 
 namespace INNOEcoSystem.Service.Services;
 
@@ -16,10 +18,12 @@ public  class DepartmentService : IDepartmentService
 {
     private readonly IMapper _mapper;
     private readonly IDepartmentRepository _departmentRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public DepartmentService(IMapper mapper, IDepartmentRepository departmentRepository)
+    public DepartmentService(IMapper mapper,ICategoryRepository categoryRepository, IDepartmentRepository departmentRepository)
     {
         _mapper = mapper;
+        _categoryRepository = categoryRepository;
         _departmentRepository = departmentRepository;
     }
 
@@ -30,11 +34,21 @@ public  class DepartmentService : IDepartmentService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (department is null || department.IsDeleed == true)
+        if (department is not  null || department?.IsDeleed == true)
             throw new INNOEcoSystemException(404, "Department is not found");
 
+        var category = await _categoryRepository.SelectAll()
+            .Where(c=>c.Id == departmentForCreationDto.CategoryId)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+
+        if (category is null || category?.IsDeleed == true)
+            throw new INNOEcoSystemException(404, "Category is not found");
+
+        
+
         var mappedDepartment = _mapper.Map<Department>(departmentForCreationDto);
-        mappedDepartment.CreatedAt = DateTime.Now;
+        mappedDepartment.CreatedAt = DateTime.UtcNow;
         var createDepartment = await _departmentRepository.InsertAsync(mappedDepartment);
         return _mapper.Map<DepartmentForResultDto>(createDepartment);
     }
@@ -53,14 +67,14 @@ public  class DepartmentService : IDepartmentService
             throw new INNOEcoSystemException(409, "Department License already exicts");
 
         var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(departmentAssetForCreationDto.formFile.FileName);
-        var rootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Department", "Licenses", fileName);
+        var rootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Departments", "Licenses", fileName);
         using (var stream = new FileStream(rootPath, FileMode.Create))
         {
             await departmentAssetForCreationDto.formFile.CopyToAsync(stream);
             await stream.FlushAsync();
             stream.Close();
         }
-        string bannerPath = Path.Combine("Media", "Department", "Licenses", fileName);
+        string bannerPath = Path.Combine("Media", "Departments", "Licenses", fileName);
 
         department.License = bannerPath;
 
@@ -126,6 +140,7 @@ public  class DepartmentService : IDepartmentService
         var departments = await _departmentRepository.SelectAll()
             .Where(d => d.IsDeleed == false)
             .AsNoTracking()
+            .ToPagedList(@params)
             .ToListAsync();
 
         return _mapper.Map<IEnumerable<DepartmentForResultDto>>(departments);
@@ -194,7 +209,7 @@ public  class DepartmentService : IDepartmentService
 
         string resulLicense = Path.Combine("Media", "Departments", "Licenses", fileName);
 
-        department.Logo = resulLicense;
+        department.License = resulLicense;
         var mappedDepartment = _mapper.Map<Department>(department);
         var result = await _departmentRepository.UpdateAsync(mappedDepartment);
 
