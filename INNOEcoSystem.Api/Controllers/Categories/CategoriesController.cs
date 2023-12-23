@@ -3,6 +3,7 @@ using INNOEcoSystem.Service.Interfaces.Departments;
 using Microsoft.AspNetCore.Mvc;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Api.Controllers.Commons;
+using INNOEcoSystem.Service.DTOs.Users;
 
 namespace INNOEcoSystem.Api.Controllers.Categories;
 
@@ -17,22 +18,33 @@ public class CategoriesController : BaseController
 
     [HttpPost]
     public async Task<IActionResult> PostAsync([FromForm] CategoryForCreationDto dto)
-       => Ok(await this._categoryService.CreateAsync(dto));
+       => Ok(await _categoryService.CreateAsync(dto));
 
-    [HttpGet]
+    [HttpGet("retrieve-categories")]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
-        => Ok(await this._categoryService.RetrieveAllAsync(@params));
+        => Ok(await _categoryService.RetrieveAllAsync(@params));
 
+    [HttpGet("retrieve-deleted-categories")]
+    public async Task<IActionResult> GetAllDeletedCategoryAsync([FromQuery] PaginationParams @params)
+        => Ok(await _categoryService.RetrieveAllDeletedCategoriesAsync(@params));
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] long id)
-        => Ok(await this._categoryService.RetrieveByIdAsync(id));
+        => Ok(await _categoryService.RetrieveByIdAsync(id));
+
+    [HttpGet("search-with-name")]
+    public async Task<IActionResult> SearchByNameAsync(string name)
+        => Ok(await _categoryService.RetrieveByNameAsync(name));
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] long id)
-        => Ok(await this._categoryService.RemoveAsync(id));
+        => Ok(await _categoryService.RemoveAsync(id));
+
+    [HttpPut("modify-category-picture{categoryId}")]
+    public async Task<IActionResult> PutUserImageAsync([FromRoute(Name = "categoryId")] long categoryId, [FromForm] CategoryImageForUpdateDto dto)
+            => Ok(await this._categoryService.ModifyCategoryImageAsunc(categoryId, dto));
 
     [HttpPut("{id}")]
     public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromForm] CategoryForUpdateDto dto)
-        => Ok(await this._categoryService.ModifyAsync(id, dto));
+        => Ok(await _categoryService.ModifyAsync(id, dto));
 }

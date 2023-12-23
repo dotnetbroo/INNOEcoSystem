@@ -26,7 +26,7 @@ public class LocationService : ILocationService
     public async Task<LocationForResultDto> CreateAsync(LocationForCreationDto dto)
     {
         var existingLocation = await _locationRepository.SelectAll()
-            .Where(l => l.Address.ToLower() == dto.Addres.ToLower())
+            .Where(l => l.Addres.ToLower() == dto.Addres.ToLower())
             .FirstOrDefaultAsync();
 
         if (existingLocation is not null)

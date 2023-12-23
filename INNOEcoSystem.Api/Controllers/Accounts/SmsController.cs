@@ -1,4 +1,4 @@
-﻿using INNOEcoSystem.Api.Controllers.Commons;
+﻿/*using INNOEcoSystem.Api.Controllers.Commons;
 using INNOEcoSystem.Models.Helpers;
 using INNOEcoSystem.Service.Interfaces.Accounts;
 using INNOEcoSystem.Service.Services.Accaunts.Models;
@@ -19,8 +19,9 @@ namespace INNOEcoSystem.Api.Controllers.Accounts
         public async Task<IActionResult> GenereteToken()
             => Ok(await smsService.GenerateTokenAsync());
 
-/*        [HttpPost]
+*//*        [HttpPost]
         public async Task<IActionResult> SendMessageAsync(Sms message)
-        => Ok(await this.smsService.SendAsync(message));*/
+        => Ok(await this.smsService.SendAsync(message));*//*
     }
 }
+*/

@@ -20,8 +20,8 @@ namespace INNOEcoSystem.Api.Controllers.LocationAssets
             =>Ok(await _locationAssetService.RetrieveByIdAsync(locationId, id));
 
         [HttpGet]
-        public async Task<IActionResult>GetAllAsync([FromQuery] PaginationParams paginationParams)
-            =>Ok(await _locationAssetService.RetrieveAllAsync(paginationParams));
+        public async Task<IActionResult>GetAllAsync([FromQuery] PaginationParams @params)
+            =>Ok(await _locationAssetService.RetrieveAllAsync(@params));
 
         [HttpDelete("{location-id}/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute(Name = "location-id")] long locationId, long id)

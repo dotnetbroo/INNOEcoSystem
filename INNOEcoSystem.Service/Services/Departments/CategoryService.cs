@@ -2,9 +2,11 @@
 using INNOEcoSystem.Data.IRepositories.Categories;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Domain.Entities.Departments;
+using INNOEcoSystem.Domain.Entities.Users;
 using INNOEcoSystem.Service.Commons.Extensions;
 using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.DTOs.Categories;
+using INNOEcoSystem.Service.DTOs.Users;
 using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.Departments;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +29,7 @@ public class CategoryService : ICategoryService
     public async Task<CategoryForResultDto> CreateAsync(CategoryForCreationDto dto)
     {
         var existingCategory = await _categoryRepository.SelectAll()
-            .Where(c => c.Name.ToLower() == dto.Name.ToLower())
+            .Where(c => c.Name.ToLower() == dto.Name.ToLower() && c.IsDeleted == false)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
@@ -58,7 +60,7 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryForResultDto> ModifyAsync(long id, CategoryForUpdateDto dto)
     {
-        var categoryToUpdate = await _categoryRepository.SelectAsync(u => u.Id == id);
+        var categoryToUpdate = await _categoryRepository.SelectAsync(u => u.Id == id && u.IsDeleted == false);
 
         if (categoryToUpdate is not null)
             throw new INNOEcoSystemException(404, "Category is not found");
@@ -94,7 +96,7 @@ public class CategoryService : ICategoryService
     public async Task<bool> RemoveAsync(long id)
     {
         var existingCategory = await _categoryRepository.SelectAll()
-            .Where(c => c.Id == id)
+            .Where(c => c.Id == id && c.IsDeleted == false)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
@@ -108,7 +110,10 @@ public class CategoryService : ICategoryService
             File.Delete(imageFilepath);
         #endregion
 
-        return await _categoryRepository.DeleteAsync(id);
+        existingCategory.IsDeleted = true;
+        await _categoryRepository.UpdateAsync(existingCategory);
+
+        return true;
 
     }
 
@@ -116,8 +121,22 @@ public class CategoryService : ICategoryService
     {
         var existingCategory = await _categoryRepository
             .SelectAll()
+            .Where(c => c.IsDeleted == false)
             .AsNoTracking()
-            .ToPagedList<Category>(@params)
+            .ToPagedList(@params)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<CategoryForResultDto>>(existingCategory);
+
+    }
+
+    public async Task<IEnumerable<CategoryForResultDto>> RetrieveAllDeletedCategoriesAsync(PaginationParams @params)
+    {
+        var existingCategory = await _categoryRepository
+            .SelectAll()
+            .Where(c => c.IsDeleted == true)
+            .AsNoTracking()
+            .ToPagedList(@params)
             .ToListAsync();
 
         return _mapper.Map<IEnumerable<CategoryForResultDto>>(existingCategory);
@@ -127,7 +146,7 @@ public class CategoryService : ICategoryService
     public async Task<CategoryForResultDto> RetrieveByIdAsync(long id)
     {
         var existingCategory = await _categoryRepository.SelectAll()
-            .Where(c => c.Id == id)
+            .Where(c => c.Id == id && c.IsDeleted == false)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
@@ -136,5 +155,45 @@ public class CategoryService : ICategoryService
 
         return _mapper.Map<CategoryForResultDto>(existingCategory);
 
+    }
+
+    public async Task<CategoryForResultDto> RetrieveByNameAsync(string name)
+    {
+        var existingCategory = await _categoryRepository.SelectAll()
+            .Where(c => c.Name == name && c.IsDeleted == false)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+
+        if (existingCategory is not null)
+            throw new INNOEcoSystemException(404, "Category is not found");
+
+        return _mapper.Map<CategoryForResultDto>(existingCategory);
+    }
+
+    public async Task<CategoryImageForResultDto> ModifyCategoryImageAsunc(long categoryId, CategoryImageForUpdateDto dto)
+    {
+        var category = await _categoryRepository.SelectAsync(u => u.Id == categoryId && u.IsDeleted == false);
+        if (category is null)
+            throw new INNOEcoSystemException(404, "User is not found");
+
+        var imageFullPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, category.Image);
+
+        if (File.Exists(imageFullPath))
+            File.Delete(imageFullPath);
+
+        var imageFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Image.FileName);
+        var imageRootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Categories", "Images", imageFileName);
+        using (var stream = new FileStream(imageRootPath, FileMode.Create))
+        {
+            await dto.Image.CopyToAsync(stream);
+            await stream.FlushAsync();
+            stream.Close();
+        }
+        string imageResult = Path.Combine("Media", "Categories", "Images", imageFileName);
+
+        var mappedImage = _mapper.Map(dto, category);
+        mappedImage.Image = imageResult;
+
+        return _mapper.Map<CategoryImageForResultDto>(mappedImage);
     }
 }
