@@ -1,4 +1,4 @@
-﻿namespace INNOEcoSystem.Service.Helpers;
+﻿namespace INNOEcoSystem.Service.Commons.Helpers;
 
 public class WebHostEnviromentHelper
 {
