@@ -1,16 +1,20 @@
 using INNOEcoSystem.Data.DbContexts;
 using INNOEcoSystem.Models.Middlewares;
+using INNOEcoSystem.Service.Helpers;
+using INNOEcoSystem.Service.Mappers;
 using INNOEcoSystem.Shared.Extensions;
 using INNOEcoSystem.Shared.Models;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Database configuration
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -32,11 +36,13 @@ builder.Services.AddControllers(options =>
                                         new ConfigurationApiUrlName()));
 });
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 builder.Services.AddCustomServices();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Getting full path of wwwroot
+WebHostEnviromentHelper.WebRootPath = Path.GetFullPath("wwwroot");
 
 var app = builder.Build();
 
