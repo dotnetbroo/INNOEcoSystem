@@ -7,7 +7,7 @@ public class Location : Auditable
 {
     public decimal LongiTude { get; set; }
     public decimal Latitude { get; set; }
-    public string Addres { get; set; }
+    public string Address { get; set; }
 
     public ICollection<LocationAsset> Assets { get; set; }
 }
