@@ -1,4 +1,4 @@
-﻿using INNOEcoSystem.Domain.Entities.Assets;
+﻿/*using INNOEcoSystem.Domain.Entities.Assets;
 using Microsoft.EntityFrameworkCore;
 
 namespace INNOEcoSystem.Data.DbContexts.SeedDatas.Assets;
@@ -22,3 +22,4 @@ public class LocationsAssetSeedData
             );
     }
 }
+*/
