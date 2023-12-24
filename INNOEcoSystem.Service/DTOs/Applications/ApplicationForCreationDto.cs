@@ -4,6 +4,7 @@ namespace INNOEcoSystem.Service.DTOs.Applications;
 
 public class ApplicationForCreationDto
 {
+
     public long DepartmentId { get; set; }
 
     public long UserId { get; set; }
