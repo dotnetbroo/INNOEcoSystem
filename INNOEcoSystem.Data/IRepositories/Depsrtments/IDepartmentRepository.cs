@@ -2,6 +2,6 @@
 
 namespace INNOEcoSystem.Data.IRepositories.Depsrtments;
 
-public  interface  IDepartmentRepository : IRepository<Department>
+public interface IDepartmentRepository : IRepository<Department>
 {
 }

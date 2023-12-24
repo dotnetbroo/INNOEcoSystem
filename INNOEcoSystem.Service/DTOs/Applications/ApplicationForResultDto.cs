@@ -1,6 +1,4 @@
-﻿using INNOEcoSystem.Domain.Entities.Departments;
-using INNOEcoSystem.Domain.Entities.Users;
-using INNOEcoSystem.Domain.Enums;
+﻿using INNOEcoSystem.Domain.Enums;
 
 namespace INNOEcoSystem.Service.DTOs.Applications;
 

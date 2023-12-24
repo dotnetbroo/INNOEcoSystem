@@ -21,7 +21,7 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
 
     public UserService(
-        IMapper mapper, 
+        IMapper mapper,
         ISmsService smsService,
         IUserRepository userRepository)
     {

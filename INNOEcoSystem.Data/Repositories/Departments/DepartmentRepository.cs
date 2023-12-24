@@ -1,6 +1,6 @@
 ﻿using INNOEcoSystem.Data.DbContexts;
-using INNOEcoSystem.Domain.Entities.Departments;
 using INNOEcoSystem.Data.IRepositories.Depsrtments;
+using INNOEcoSystem.Domain.Entities.Departments;
 
 namespace INNOEcoSystem.Data.Repositories.Departments;
 

@@ -1,28 +1,28 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using INNOEcoSystem.Service.Exceptions;
-using INNOEcoSystem.Domain.Configurations;
-using INNOEcoSystem.Service.DTOs.Department;
-using INNOEcoSystem.Service.Commons.Helpers;
-using INNOEcoSystem.Service.DTOs.Departments;
-using INNOEcoSystem.Service.Commons.Extensions;
-using INNOEcoSystem.Domain.Entities.Departments;
-using INNOEcoSystem.Service.DTOs.DepartmentAssets;
-using INNOEcoSystem.Service.Interfaces.Department;
-using INNOEcoSystem.Data.IRepositories.Depsrtments;
 using INNOEcoSystem.Data.IRepositories.Categories;
+using INNOEcoSystem.Data.IRepositories.Depsrtments;
 using INNOEcoSystem.Data.IRepositories.Locations;
+using INNOEcoSystem.Domain.Configurations;
+using INNOEcoSystem.Domain.Entities.Departments;
+using INNOEcoSystem.Service.Commons.Extensions;
+using INNOEcoSystem.Service.Commons.Helpers;
+using INNOEcoSystem.Service.DTOs.Department;
+using INNOEcoSystem.Service.DTOs.DepartmentAssets;
+using INNOEcoSystem.Service.DTOs.Departments;
+using INNOEcoSystem.Service.Exceptions;
+using INNOEcoSystem.Service.Interfaces.Department;
+using Microsoft.EntityFrameworkCore;
 
 namespace INNOEcoSystem.Service.Services;
 
-public  class DepartmentService : IDepartmentService
+public class DepartmentService : IDepartmentService
 {
     private readonly IMapper _mapper;
     private readonly IDepartmentRepository _departmentRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly ILocationRepository _locationRepository;
 
-    public DepartmentService(IMapper mapper,ICategoryRepository categoryRepository, ILocationRepository locationRepository, IDepartmentRepository departmentRepository)
+    public DepartmentService(IMapper mapper, ICategoryRepository categoryRepository, ILocationRepository locationRepository, IDepartmentRepository departmentRepository)
     {
         _mapper = mapper;
         _locationRepository = locationRepository;
@@ -37,11 +37,11 @@ public  class DepartmentService : IDepartmentService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (department is not  null || department?.IsDeleted == true)
+        if (department is not null || department?.IsDeleted == true)
             throw new INNOEcoSystemException(404, "Department is not found");
 
         var category = await _categoryRepository.SelectAll()
-            .Where(c=>c.Id == departmentForCreationDto.CategoryId)
+            .Where(c => c.Id == departmentForCreationDto.CategoryId)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
@@ -55,7 +55,7 @@ public  class DepartmentService : IDepartmentService
 
         if (location is null || location?.IsDeleted == true)
             throw new INNOEcoSystemException(404, "Location is not foun");
-           
+
 
         var mappedDepartment = _mapper.Map<Department>(departmentForCreationDto);
         mappedDepartment.CreatedAt = DateTime.UtcNow;

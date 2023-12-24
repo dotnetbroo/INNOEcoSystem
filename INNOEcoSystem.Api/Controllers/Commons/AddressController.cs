@@ -1,9 +1,7 @@
 ﻿using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Service.DTOs.Address;
-using INNOEcoSystem.Service.DTOs.Users;
 using INNOEcoSystem.Service.Interfaces.Locations;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace INNOEcoSystem.Api.Controllers.Commons
 {

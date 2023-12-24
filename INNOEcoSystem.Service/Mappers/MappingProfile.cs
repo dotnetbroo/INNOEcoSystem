@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
 using INNOEcoSystem.Domain.Entities.Applications;
+using INNOEcoSystem.Domain.Entities.Assets;
 using INNOEcoSystem.Domain.Entities.Departments;
 using INNOEcoSystem.Domain.Entities.Locations;
 using INNOEcoSystem.Domain.Entities.Users;
+using INNOEcoSystem.Service.DTOs.Address;
 using INNOEcoSystem.Service.DTOs.Applications;
 using INNOEcoSystem.Service.DTOs.Categories;
-using INNOEcoSystem.Service.DTOs.Address;
 using INNOEcoSystem.Service.DTOs.Department;
 using INNOEcoSystem.Service.DTOs.Departments;
 using INNOEcoSystem.Service.DTOs.Locations;
-using INNOEcoSystem.Service.DTOs.Users;
-using INNOEcoSystem.Domain.Entities.Assets;
 using INNOEcoSystem.Service.DTOs.LocationsAsset;
+using INNOEcoSystem.Service.DTOs.Users;
 
 namespace INNOEcoSystem.Service.Mappers;
 
@@ -38,12 +38,12 @@ public class MappingProfile : Profile
         CreateMap<Address, AddressForResultDto>().ReverseMap();
         CreateMap<Address, AddressForUpdateDto>().ReverseMap();
         CreateMap<Address, AddressForCreationDto>().ReverseMap();
-        
+
 
         //Department
-        CreateMap<Department,DepartmentForCreationDto>().ReverseMap();
-        CreateMap<Department,DepartmentForResultDto>().ReverseMap();
-        CreateMap<Department,DepartmentForUpdateDto>().ReverseMap();
+        CreateMap<Department, DepartmentForCreationDto>().ReverseMap();
+        CreateMap<Department, DepartmentForResultDto>().ReverseMap();
+        CreateMap<Department, DepartmentForUpdateDto>().ReverseMap();
 
         // Location
         CreateMap<Location, LocationForCreationDto>().ReverseMap();
@@ -56,6 +56,6 @@ public class MappingProfile : Profile
         CreateMap<Application, ApplicationForUpdateDto>().ReverseMap();
 
         //LocationAsset
-        CreateMap<LocationAsset,LocationAssetForResultDto>().ReverseMap();
+        CreateMap<LocationAsset, LocationAssetForResultDto>().ReverseMap();
     }
 }

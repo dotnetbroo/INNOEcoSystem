@@ -16,12 +16,12 @@ namespace INNOEcoSystem.Api.Controllers.LocationAssets
         }
 
         [HttpGet("{location-id}/{id}")]
-        public async Task<IActionResult> GetById([FromRoute(Name = "location-id")]long locationId ,long id)
-            =>Ok(await _locationAssetService.RetrieveByIdAsync(locationId, id));
+        public async Task<IActionResult> GetById([FromRoute(Name = "location-id")] long locationId, long id)
+            => Ok(await _locationAssetService.RetrieveByIdAsync(locationId, id));
 
         [HttpGet]
-        public async Task<IActionResult>GetAllAsync([FromQuery] PaginationParams @params)
-            =>Ok(await _locationAssetService.RetrieveAllAsync(@params));
+        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
+            => Ok(await _locationAssetService.RetrieveAllAsync(@params));
 
         [HttpDelete("{location-id}/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute(Name = "location-id")] long locationId, long id)
@@ -30,8 +30,8 @@ namespace INNOEcoSystem.Api.Controllers.LocationAssets
 
 
         [HttpPost("{location-id}")]
-        public async Task<IActionResult> CreateAsync([FromRoute(Name = "location-id")] long id,[Required]IFormFile formFile)
-            =>Ok(await _locationAssetService.CreateAsync(id,formFile));
+        public async Task<IActionResult> CreateAsync([FromRoute(Name = "location-id")] long id, [Required] IFormFile formFile)
+            => Ok(await _locationAssetService.CreateAsync(id, formFile));
 
     }
 }

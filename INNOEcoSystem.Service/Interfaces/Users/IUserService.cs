@@ -3,7 +3,7 @@ using INNOEcoSystem.Service.DTOs.Users;
 
 namespace INNOEcoSystem.Service.Interfaces.User;
 
-public  interface IUserService
+public interface IUserService
 {
     Task<bool> RemoveAsync(long id);
     Task<UserForResultDto> RetrieveByIdAsync(long id);

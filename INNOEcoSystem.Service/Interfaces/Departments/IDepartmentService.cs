@@ -1,11 +1,11 @@
 ﻿using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Service.DTOs.Department;
-using INNOEcoSystem.Service.DTOs.Departments;
 using INNOEcoSystem.Service.DTOs.DepartmentAssets;
+using INNOEcoSystem.Service.DTOs.Departments;
 
 namespace INNOEcoSystem.Service.Interfaces.Department;
 
-public  interface IDepartmentService
+public interface IDepartmentService
 {
     public Task<bool> RemoveAsync(long id);
     public Task<DepartmentForResultDto> RetrieveByIdAsync(long id);

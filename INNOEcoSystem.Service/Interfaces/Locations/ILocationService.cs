@@ -3,7 +3,7 @@ using INNOEcoSystem.Service.DTOs.Locations;
 
 namespace INNOEcoSystem.Service.Interfaces.Location;
 
-public  interface ILocationService
+public interface ILocationService
 {
     Task<bool> RemoveAsync(long id);
     Task<LocationForResultDto> RetrieveByIdAsync(long id);
