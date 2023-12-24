@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace INNOEcoSystem.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMergerigration : Migration
+    public partial class LocationIdRemove : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,9 +53,9 @@ namespace INNOEcoSystem.Data.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    LongiTude = table.Column<decimal>(type: "numeric", nullable: false),
-                    Latitude = table.Column<decimal>(type: "numeric", nullable: false),
                     Addres = table.Column<string>(type: "text", nullable: true),
+                    Latitude = table.Column<decimal>(type: "numeric", nullable: false),
+                    LongiTude = table.Column<decimal>(type: "numeric", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
@@ -144,6 +144,7 @@ namespace INNOEcoSystem.Data.Migrations
                     Size = table.Column<long>(type: "bigint", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: true),
                     LacationId = table.Column<long>(type: "bigint", nullable: false),
+                    LocationId = table.Column<long>(type: "bigint", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
@@ -152,11 +153,10 @@ namespace INNOEcoSystem.Data.Migrations
                 {
                     table.PrimaryKey("PK_LacationAssets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LacationAssets_Lacations_LacationId",
-                        column: x => x.LacationId,
+                        name: "FK_LacationAssets_Lacations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Lacations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -214,9 +214,9 @@ namespace INNOEcoSystem.Data.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LacationAssets_LacationId",
+                name: "IX_LacationAssets_LocationId",
                 table: "LacationAssets",
-                column: "LacationId");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_AddressId",
