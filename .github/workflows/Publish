@@ -23,3 +23,22 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
       
+  dockerize:
+    name: Dockerize
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      USERNAME: ${{ variables.DOCKER_USERNAME }}
+      PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v3
+      - name: Build Docker image
+        run: docker build -t $USERNAME/inno-eco -f .\INNOEcoSystem.Api\Dockerfile .
+      - name: Login to Docker account
+        run: docker login -u $USERNAME -p $PASSWORD #--password-stdin
+      - name: Push Docker image
+        run: docker push $USERNAME/inno-eco
