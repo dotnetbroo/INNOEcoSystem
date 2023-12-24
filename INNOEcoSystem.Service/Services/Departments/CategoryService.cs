@@ -98,7 +98,7 @@ public class CategoryService : ICategoryService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (existingCategory is not null)
+        if (existingCategory is null)
             throw new INNOEcoSystemException(404, "Category is not found");
 
         #region Image
