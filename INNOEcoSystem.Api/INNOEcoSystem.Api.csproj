@@ -31,6 +31,7 @@
     <Folder Include="wwwroot\Media\Departments\Licenses\" />
     <Folder Include="wwwroot\Media\Departments\Logos\" />
     <Folder Include="wwwroot\Media\Locations\Assets\" />
+    <Folder Include="wwwroot\Media\Locations\Assets\" />
     <Folder Include="wwwroot\Media\UserProfilePictures\Images\" />
   </ItemGroup>
 

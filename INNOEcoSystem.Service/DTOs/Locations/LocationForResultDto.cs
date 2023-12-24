@@ -9,5 +9,5 @@ public  class LocationForResultDto
     public string Addres { get; set; }
     public decimal LongiTude { get; set; }
     public decimal Latitude { get; set; }
-    public ICollection<LocationAssetForResultDto> LacationAssets { get; set; }
+    public ICollection<LocationAssetForResultDto> Assets { get; set; }
 }
