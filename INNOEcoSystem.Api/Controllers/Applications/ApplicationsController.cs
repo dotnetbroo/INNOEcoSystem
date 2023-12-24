@@ -1,5 +1,6 @@
 ﻿using INNOEcoSystem.Api.Controllers.Commons;
 using INNOEcoSystem.Domain.Configurations;
+using INNOEcoSystem.Domain.Enums;
 using INNOEcoSystem.Service.DTOs.Applications;
 using INNOEcoSystem.Service.Interfaces.Applications;
 using Microsoft.AspNetCore.Mvc;
@@ -43,5 +44,7 @@ public class ApplicationsController : BaseController
     public async Task<IActionResult> UpdateAsync([FromRoute(Name = "id")] long id, [FromForm] ApplicationForUpdateDto dto)
         => Ok(await _applicationService.ModifyAsync(id, dto));
 
-
+    [HttpPut("update-application-status")]
+    public async Task<IActionResult> UpdateApplicationStatusAsync(long id, ApplicationStatus status)
+        => Ok(await _applicationService.ModifyApplicationStatusAsync(id, status));
 }
