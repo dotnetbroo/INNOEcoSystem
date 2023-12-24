@@ -3,8 +3,6 @@ name: Publish
 on:
   pull_request:
     branches: [ "publish" ]
-  push:
-    branches: [ "publish" ]
 
 jobs:
   build:
@@ -27,7 +25,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      USERNAME: ${{ variables.DOCKER_USERNAME }}
       PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
@@ -36,8 +33,8 @@ jobs:
       - name: Setup .NET 8
         uses: actions/setup-dotnet@v3
       - name: Build Docker image
-        run: docker build -t $USERNAME/inno-eco -f .\INNOEcoSystem.Api\Dockerfile .
+        run: docker build -t dotnetbro/inno-eco -f .\INNOEcoSystem.Api\Dockerfile .
       - name: Login to Docker account
-        run: docker login -u $USERNAME -p $PASSWORD #--password-stdin
+        run: docker login -u dotnetbro -p $PASSWORD #--password-stdin
       - name: Push Docker image
-        run: docker push $USERNAME/inno-eco
+        run: docker push dotnetbro/inno-eco
