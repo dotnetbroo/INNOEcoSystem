@@ -3,11 +3,13 @@ using INNOEcoSystem.Api.Controllers.Commons;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Service.DTOs.Users;
 using INNOEcoSystem.Service.Interfaces.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace INNOEcoSystem.Api.Controllers.Users
 {
+    [Authorize]
     public class UsersController : BaseController
     {
         private readonly IUserService _userService;
@@ -16,7 +18,7 @@ namespace INNOEcoSystem.Api.Controllers.Users
         {
             _userService = userService;
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromForm] UserForCreationDto dto)
             => Ok(await _userService.AddAsync(dto));
@@ -52,7 +54,7 @@ namespace INNOEcoSystem.Api.Controllers.Users
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromForm] UserForUpdateDto dto)
             => Ok(await this._userService.ModifyAsync(id, dto));
-
+        
         [HttpPut("modify-user-profile-picture{userId}")]
         public async Task<IActionResult> PutUserImageAsync([FromRoute(Name = "userId")] long userId, [FromForm] UserImageUpdateDto dto)
             => Ok(await this._userService.ModifyUserImageAsunc(userId, dto));
@@ -64,7 +66,7 @@ namespace INNOEcoSystem.Api.Controllers.Users
         [HttpPut("change-password")]
         public async Task<IActionResult> ChangePasswordAsync([Required] string email, [FromForm] UserForChangePasswordDto dto)
             => Ok(await this._userService.ChangePasswordAsync(email, dto));
-
+        [AllowAnonymous]
         [HttpPut("forget-password")]
         public async Task<IActionResult> ForgetPasswordAsync([Required] string PhoneNumber, [Required] string NewPassword, [Required] string ConfirmPassword)
         => Ok(await _userService.ForgetPasswordAsync(PhoneNumber, NewPassword, ConfirmPassword));

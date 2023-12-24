@@ -2,10 +2,11 @@
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Service.DTOs.Categories;
 using INNOEcoSystem.Service.Interfaces.Departments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace INNOEcoSystem.Api.Controllers.Categories;
-
+[Authorize(Policy = "Admins")]
 public class CategoriesController : BaseController
 {
     private readonly ICategoryService _categoryService;
@@ -18,7 +19,7 @@ public class CategoriesController : BaseController
     [HttpPost]
     public async Task<IActionResult> PostAsync([FromForm] CategoryForCreationDto dto)
        => Ok(await _categoryService.CreateAsync(dto));
-
+    [AllowAnonymous]
     [HttpGet("retrieve-categories")]
     public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
         => Ok(await _categoryService.RetrieveAllAsync(@params));
@@ -30,7 +31,7 @@ public class CategoriesController : BaseController
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAsync([FromRoute(Name = "id")] long id)
         => Ok(await _categoryService.RetrieveByIdAsync(id));
-
+    [AllowAnonymous]
     [HttpGet("search-with-name")]
     public async Task<IActionResult> SearchByNameAsync(string name)
         => Ok(await _categoryService.RetrieveByNameAsync(name));

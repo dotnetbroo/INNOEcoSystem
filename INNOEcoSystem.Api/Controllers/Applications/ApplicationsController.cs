@@ -3,10 +3,11 @@ using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Domain.Enums;
 using INNOEcoSystem.Service.DTOs.Applications;
 using INNOEcoSystem.Service.Interfaces.Applications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace INNOEcoSystem.Api.Controllers.Applications;
-
+[Authorize]
 public class ApplicationsController : BaseController
 {
     private readonly IApplicationService _applicationService;
