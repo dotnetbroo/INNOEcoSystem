@@ -6,8 +6,9 @@ namespace INNOEcoSystem.Service.Interfaces.LocationAssets;
 
 public interface ILocationAssetService
 {
-    Task<bool> RemoveAsync(long userId, long id);
-    Task<LocationAssetForResultDto> RetrieveByIdAsync(long userId, long id);
-    Task<LocationAssetForResultDto> CreateAsync(long Id, IFormFile formFile);
+    Task<bool> RemoveAsync(long id);
+    Task<LocationAssetForResultDto> RetrieveByIdAsync(long id);
+    Task<LocationAssetForResultDto> CreateAsync(LocationAssetForCreationDto dto);
+    Task<LocationAssetForResultDto> ModifyAsync(long id, LocationAssetForUpdateDto dto);
     Task<IEnumerable<LocationAssetForResultDto>> RetrieveAllAsync(PaginationParams @params);
 }

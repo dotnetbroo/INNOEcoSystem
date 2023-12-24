@@ -7,6 +7,7 @@ using INNOEcoSystem.Shared.Extensions;
 using INNOEcoSystem.Shared.Models;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerService();
 // JWT service
 builder.Services.AddJwtService(builder.Configuration);
+
+
 
 
 // Logger
@@ -70,6 +73,15 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+// Database bo'lmasa qoshada bo'lsa tegmaydi (database update) - vazifasini beradi
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 
 app.UseCors("AllowAll");
 app.UseStaticFiles();
