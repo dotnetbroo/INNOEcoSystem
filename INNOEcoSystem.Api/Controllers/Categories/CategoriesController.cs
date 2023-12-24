@@ -1,9 +1,8 @@
-﻿using INNOEcoSystem.Service.DTOs.Categories;
+﻿using INNOEcoSystem.Api.Controllers.Commons;
+using INNOEcoSystem.Domain.Configurations;
+using INNOEcoSystem.Service.DTOs.Categories;
 using INNOEcoSystem.Service.Interfaces.Departments;
 using Microsoft.AspNetCore.Mvc;
-using INNOEcoSystem.Domain.Configurations;
-using INNOEcoSystem.Api.Controllers.Commons;
-using INNOEcoSystem.Service.DTOs.Users;
 
 namespace INNOEcoSystem.Api.Controllers.Categories;
 

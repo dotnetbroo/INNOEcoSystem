@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using INNOEcoSystem.Api.Controllers.Commons;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Service.DTOs.Department;
-using INNOEcoSystem.Service.DTOs.Departments;
 using INNOEcoSystem.Service.DTOs.DepartmentAssets;
+using INNOEcoSystem.Service.DTOs.Departments;
 using INNOEcoSystem.Service.Interfaces.Department;
-using INNOEcoSystem.Api.Controllers.Commons;
+using Microsoft.AspNetCore.Mvc;
 
 namespace INNOEcoSystem.Api.Controllers.Departments
 {
-    public  class DepartmentController : BaseController
+    public class DepartmentController : BaseController
     {
         private readonly IDepartmentService _departmentService;
 
@@ -22,7 +22,7 @@ namespace INNOEcoSystem.Api.Controllers.Departments
             => Ok(await _departmentService.RetrieveByIdAsync(Id));
 
         [HttpGet]
-        public async Task<IActionResult> GeAllAsync([FromQuery]PaginationParams @params)
+        public async Task<IActionResult> GeAllAsync([FromQuery] PaginationParams @params)
             => Ok(await _departmentService.RetrieveAllAsync(@params));
 
         [HttpDelete("{id}")]
@@ -30,7 +30,7 @@ namespace INNOEcoSystem.Api.Controllers.Departments
             => Ok(await _departmentService.RemoveAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody]  DepartmentForCreationDto departmentForCreationDto)
+        public async Task<IActionResult> CreateAsync([FromBody] DepartmentForCreationDto departmentForCreationDto)
             => Ok(await _departmentService.AddAsync(departmentForCreationDto));
 
         [HttpPut("{id}")]

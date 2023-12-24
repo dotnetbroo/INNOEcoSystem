@@ -28,7 +28,7 @@ public class ApplicationsController : BaseController
             => Ok(await _applicationService.RetrieveAllDeletedApplicationAsync(@params));
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetByIdAsync([FromRoute(Name ="id")] long id)
+    public async Task<IActionResult> GetByIdAsync([FromRoute(Name = "id")] long id)
         => Ok(await _applicationService.RetrieveByIdAsync(id));
 
     [HttpGet("search-by-application-number")]
@@ -36,7 +36,7 @@ public class ApplicationsController : BaseController
         => Ok(await _applicationService.SearchApplicationByNumberAsync(num));
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> RemoveAsync([FromRoute(Name ="id")] long id)
+    public async Task<IActionResult> RemoveAsync([FromRoute(Name = "id")] long id)
         => Ok(await _applicationService.RemoveAsync(id));
 
     [HttpPut("{id}")]

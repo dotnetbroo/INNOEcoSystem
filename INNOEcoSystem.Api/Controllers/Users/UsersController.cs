@@ -1,10 +1,8 @@
 ﻿
 using INNOEcoSystem.Api.Controllers.Commons;
 using INNOEcoSystem.Domain.Configurations;
-using INNOEcoSystem.Models.Helpers;
 using INNOEcoSystem.Service.DTOs.Users;
 using INNOEcoSystem.Service.Interfaces.User;
-using INNOEcoSystem.Service.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -37,7 +35,7 @@ namespace INNOEcoSystem.Api.Controllers.Users
 
         [HttpGet("search-users")]
         public async Task<IActionResult> SearchAllUsersAsync(string search, [FromQuery] PaginationParams @params)
-            => Ok(await _userService.SearchAllAsync(search,@params));
+            => Ok(await _userService.SearchAllAsync(search, @params));
 
         [HttpGet("search-admins")]
         public async Task<IActionResult> SearchAllAdminsAsync(string search, [FromQuery] PaginationParams @params)

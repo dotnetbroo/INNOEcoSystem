@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using INNOEcoSystem.Shared.Models;
+﻿using INNOEcoSystem.Api.Controllers.Commons;
+using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Service.DTOs.Locations;
 using INNOEcoSystem.Service.Interfaces.Location;
-using INNOEcoSystem.Domain.Configurations;
-using INNOEcoSystem.Service.DTOs.Categories;
-using INNOEcoSystem.Api.Controllers.Commons;
+using Microsoft.AspNetCore.Mvc;
 
 namespace INNOEcoSystem.Api.Controllers.Locations
 {
@@ -40,6 +38,6 @@ namespace INNOEcoSystem.Api.Controllers.Locations
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromBody] LocationForUpdateDto dto)
-            => Ok(await this._locationService.ModifyAsync(id,dto));
+            => Ok(await this._locationService.ModifyAsync(id, dto));
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace INNOEcoSystem.Service.DTOs.Departments;
 
-public  class DepartmentForUpdateDto
+public class DepartmentForUpdateDto
 {
     public string Name { get; set; }
     public string Email { get; set; }

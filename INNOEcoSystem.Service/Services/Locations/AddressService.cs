@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using INNOEcoSystem.Data.IRepositories;
 using INNOEcoSystem.Data.IRepositories.Users;
-using INNOEcoSystem.Data.Repositories.Users;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Domain.Entities.Locations;
 using INNOEcoSystem.Service.Commons.Extensions;
-using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.DTOs.Address;
-using INNOEcoSystem.Service.DTOs.Users;
 using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.Locations;
 using Microsoft.EntityFrameworkCore;

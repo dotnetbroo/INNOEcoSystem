@@ -2,7 +2,7 @@
 
 namespace INNOEcoSystem.Service.DTOs.Locations;
 
-public  class LocationForResultDto
+public class LocationForResultDto
 {
     public long Id { get; set; }
 

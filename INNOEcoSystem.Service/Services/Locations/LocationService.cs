@@ -22,7 +22,7 @@ public class LocationService : ILocationService
         _mapper = mapper;
         _locationRepository = locationRepository;
     }
-   
+
     public async Task<LocationForResultDto> CreateAsync(LocationForCreationDto dto)
     {
         var existingLocation = await _locationRepository.SelectAll()
@@ -92,7 +92,7 @@ public class LocationService : ILocationService
     {
         var locations = await _locationRepository
             .SelectAll()
-            .Include(l => l.Assets)  
+            .Include(l => l.Assets)
             .AsNoTracking()
             .ToPagedList(@params)
             .ToListAsync();

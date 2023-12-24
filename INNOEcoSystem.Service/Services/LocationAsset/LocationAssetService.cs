@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using INNOEcoSystem.Service.Exceptions;
+using INNOEcoSystem.Data.IRepositories.LocationAssets;
+using INNOEcoSystem.Data.IRepositories.Locations;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Domain.Entities.Assets;
-using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.Commons.Extensions;
+using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.DTOs.LocationsAsset;
-using INNOEcoSystem.Data.IRepositories.Locations;
+using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.LocationAssets;
-using INNOEcoSystem.Data.IRepositories.LocationAssets;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace INNOEcoSystem.Service.Services;
 
@@ -19,7 +19,7 @@ public class LocationAssetService : ILocationAssetService
     private readonly ILocationAssetRepository _locationAssetRepository;
     private readonly ILocationRepository _locationRepository;
 
-    public LocationAssetService(IMapper mapper, 
+    public LocationAssetService(IMapper mapper,
         ILocationAssetRepository locationAssetRepository,
         ILocationRepository locationRepository)
     {
@@ -28,9 +28,9 @@ public class LocationAssetService : ILocationAssetService
         _locationAssetRepository = locationAssetRepository;
     }
 
-    
-        
-    public async Task<LocationAssetForResultDto> CreateAsync(long Id,IFormFile formFile)
+
+
+    public async Task<LocationAssetForResultDto> CreateAsync(long Id, IFormFile formFile)
     {
 
         var location = await _locationRepository.SelectAll()
@@ -38,7 +38,7 @@ public class LocationAssetService : ILocationAssetService
            .AsNoTracking()
            .FirstOrDefaultAsync();
 
-        if (location is null  ||  location?.IsDeleted == true )
+        if (location is null || location?.IsDeleted == true)
         {
             throw new INNOEcoSystemException(404, "Location is not found");
         }
@@ -74,7 +74,7 @@ public class LocationAssetService : ILocationAssetService
     public async Task<bool> RemoveAsync(long locationId, long id)
     {
         var location = await _locationRepository.SelectAll()
-            .Where(l=>l.Id == locationId)
+            .Where(l => l.Id == locationId)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
@@ -101,7 +101,7 @@ public class LocationAssetService : ILocationAssetService
             .ToListAsync();
 
         return _mapper.Map<IEnumerable<LocationAssetForResultDto>>(LocationAssets);
-       
+
     }
 
     public async Task<LocationAssetForResultDto> RetrieveByIdAsync(long locationId, long id)
@@ -115,6 +115,6 @@ public class LocationAssetService : ILocationAssetService
             throw new INNOEcoSystemException(404, "Location is not found");
 
         return _mapper.Map<LocationAssetForResultDto>(locationAsset);
-        
+
     }
 }
