@@ -5,7 +5,7 @@ using INNOEcoSystem.Domain.Enums;
 
 namespace INNOEcoSystem.Domain.Entities.Users;
 
-public  class User : Auditable
+public class User : Auditable
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -15,8 +15,8 @@ public  class User : Auditable
     public string Salt {  get; set; }
     public UserRole Role { get; set; }
     public string ProfilePicture { get; set; }
-    public long LocationId { get; set; }
-    public Location Location { get; set; }
+    public long AddressId { get; set; }
+    public Address UserAddress { get; set; }
 
     public ICollection<Application> Applications { get; set; }
 }

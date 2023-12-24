@@ -11,5 +11,7 @@ public  class LocationAsset : Auditable
     public long Size { get; set; }
     public string Type { get; set; }
     public long LacationId { get; set; }
-    public Location lacation { get; set; }
+
+    public Location Location { get; set; }
+   
 }

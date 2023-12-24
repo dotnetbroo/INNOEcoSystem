@@ -16,21 +16,22 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : Auditabl
         this.dbSet = dbContext.Set<TEntity>();
     }
 
-    public async Task<bool> DeleteAsync(long id)
-    {
-        var entity = await this.dbSet.FirstOrDefaultAsync(e => e.Id == id);
-        this.dbSet.Remove(entity);
-
-        return await this.dbContext.SaveChangesAsync() > 0;
-    }
-
     public async Task<TEntity> InsertAsync(TEntity entity)
     {
-        var entry = await this.dbSet.AddAsync(entity);
+        var entry = await dbSet.AddAsync(entity);
 
         await dbContext.SaveChangesAsync();
 
         return entry.Entity;
+    }
+
+
+    public async Task<bool> DeleteAsync(long id)
+    {
+        var entity = await dbSet.FirstOrDefaultAsync(e => e.Id == id);
+        dbSet.Remove(entity);
+
+        return await dbContext.SaveChangesAsync() > 0;
     }
 
     public IQueryable<TEntity> SelectAll(Expression<Func<TEntity, bool>> expression = null, string[] includes = null)

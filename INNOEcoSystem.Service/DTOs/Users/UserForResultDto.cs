@@ -10,11 +10,12 @@ public class UserForResultDto
     public string LastName { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public string PhoneNumber { get; set; }
     public string Salt { get; set; }
+    public string PhoneNumber { get; set; }
     public UserRole Role { get; set; }
+    public long AddressId { get; set; }
     public string ProfilePicture { get; set; }
-    public long LocationId { get; set; }
+    public bool IsDeleted { get; set; }
 
     public ICollection<Application> Applications { get; set; }
 }

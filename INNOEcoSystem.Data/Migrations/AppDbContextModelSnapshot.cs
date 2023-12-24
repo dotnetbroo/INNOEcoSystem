@@ -42,8 +42,11 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
+
+                    b.Property<long>("Number")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Presentation")
                         .HasColumnType("text");
@@ -51,7 +54,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<long>("UserId")
@@ -80,10 +83,13 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Extension")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<long>("LacationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("LocationId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -98,12 +104,12 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LacationId");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("LacationAssets");
                 });
@@ -122,13 +128,13 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -159,7 +165,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<string>("License")
@@ -177,7 +183,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Website")
@@ -190,6 +196,37 @@ namespace INNOEcoSystem.Data.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Address", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("District")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Location", b =>
@@ -206,16 +243,16 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsDeleed")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("Latitude")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Latitude")
+                        .HasColumnType("numeric");
 
-                    b.Property<long>("LongiTude")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("LongiTude")
+                        .HasColumnType("numeric");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -231,6 +268,9 @@ namespace INNOEcoSystem.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("AddressId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -240,14 +280,12 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsDeleed")
-                        .HasColumnType("boolean");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
-
-                    b.Property<long>("LocationId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Password")
                         .HasColumnType("text");
@@ -264,12 +302,12 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<string>("Salt")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Users");
                 });
@@ -295,13 +333,11 @@ namespace INNOEcoSystem.Data.Migrations
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Assets.LocationAsset", b =>
                 {
-                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "lacation")
-                        .WithMany("Assets")
-                        .HasForeignKey("LacationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "Location")
+                        .WithMany("LacationAssets")
+                        .HasForeignKey("LocationId");
 
-                    b.Navigation("lacation");
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Departments.Department", b =>
@@ -325,18 +361,23 @@ namespace INNOEcoSystem.Data.Migrations
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Users.User", b =>
                 {
-                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId")
+                    b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Address", "UserAddress")
+                        .WithMany("Users")
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Location");
+                    b.Navigation("UserAddress");
+                });
+
+            modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Address", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Location", b =>
                 {
-                    b.Navigation("Assets");
+                    b.Navigation("LacationAssets");
                 });
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Users.User", b =>

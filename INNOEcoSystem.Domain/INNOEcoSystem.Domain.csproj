@@ -6,4 +6,8 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="YandexGeocoder" Version="0.4.4" />
+  </ItemGroup>
+
 </Project>
