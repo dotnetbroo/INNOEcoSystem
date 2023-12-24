@@ -53,7 +53,6 @@ public class UserService : IUserService
         mappedUser.Salt = hasherResult.Salt;
         mappedUser.Password = hasherResult.Hash;
         mappedUser.ProfilePicture = imageResult;
-        mappedUser.Role = 0;
 
         var result = await _userRepository.InsertAsync(mappedUser);
 

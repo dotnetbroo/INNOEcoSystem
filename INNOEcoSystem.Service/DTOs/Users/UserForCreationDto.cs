@@ -1,4 +1,5 @@
-﻿using INNOEcoSystem.Service.Commons.Attributes;
+﻿using INNOEcoSystem.Domain.Enums;
+using INNOEcoSystem.Service.Commons.Attributes;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,7 +23,8 @@ public class UserForCreationDto
     [Required(ErrorMessage = "Phone number is required")]
     [PhoneNumberAttribute]
     public string PhoneNumber { get; set; }
-
+    [Required(ErrorMessage = "Role is required")]
+    public UserRole Role { get; set; }
     [Required(ErrorMessage = "Address is required")]
     public long AddressId { get; set; }
     [Required(ErrorMessage = "Profile picture is required")]
