@@ -31,9 +31,9 @@ public class ApplicationsController : BaseController
     public async Task<IActionResult> GetByIdAsync([FromRoute(Name ="id")] long id)
         => Ok(await _applicationService.RetrieveByIdAsync(id));
 
-    [HttpGet("application-number")]
+    [HttpGet("search-by-application-number")]
     public async Task<IActionResult> GetApplicationByNumberAsync([FromRoute(Name = "number")] int num)
-        => Ok(await _applicationService.RetrieveByIdAsync(num));
+        => Ok(await _applicationService.SearchApplicationByNumberAsync(num));
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> RemoveAsync([FromRoute(Name ="id")] long id)
@@ -42,4 +42,6 @@ public class ApplicationsController : BaseController
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAsync([FromRoute(Name = "id")] long id, [FromForm] ApplicationForUpdateDto dto)
         => Ok(await _applicationService.ModifyAsync(id, dto));
+
+
 }

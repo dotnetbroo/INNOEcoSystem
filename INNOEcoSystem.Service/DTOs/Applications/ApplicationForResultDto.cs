@@ -15,5 +15,7 @@ public class ApplicationForResultDto
     public string Description { get; set; }
     public string Presentation { get; set; }
     public decimal Balans { get; set; }
+
+    public bool IsDeleted { get; set; }
     public ApplicationStatus Status { get; set; }
 }

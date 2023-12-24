@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Data.IRepositories;
 using INNOEcoSystem.Domain.Configurations;
+using INNOEcoSystem.Domain.Entities.Applications;
+using INNOEcoSystem.Domain.Entities.Users;
+using INNOEcoSystem.Domain.Enums;
 using INNOEcoSystem.Service.DTOs.Applications;
 using INNOEcoSystem.Service.Commons.Extensions;
 using INNOEcoSystem.Domain.Entities.Applications;
@@ -144,9 +147,6 @@ public class ApplicationService : IApplicationService
         return _mapper.Map<ApplicationForResultDto>(application);
     }
 
-
-
-
     public async Task<IEnumerable<ApplicationForResultDto>> RetrieveAllDeletedApplicationAsync(PaginationParams @params)
     {
         var application = await _applicationRepository.SelectAll()
@@ -156,5 +156,22 @@ public class ApplicationService : IApplicationService
             .ToListAsync();
 
         return _mapper.Map<IEnumerable<ApplicationForResultDto>>(application);
+    }
+
+    public async Task<ApplicationForResultDto> ModifyApplicationStatusAsync(long id, ApplicationStatus status)
+    {
+        var application = await _applicationRepository.SelectAll()
+                .Where(a => a.Id == id && a.IsDeleted == false)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+        if (application is null)
+            throw new INNOEcoSystemException(404, "Application is not found");
+
+
+        application.Status = status;
+        await _applicationRepository.UpdateAsync(application);
+
+        return _mapper.Map<ApplicationForResultDto>(application);
     }
 }
