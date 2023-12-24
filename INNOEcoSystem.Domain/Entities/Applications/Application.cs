@@ -7,7 +7,7 @@ namespace INNOEcoSystem.Domain.Entities.Applications;
 
 public  class Application : Auditable
 {
-    public long Number {  get; set; }
+    public int Number {  get; set; }
     public long DepartmentId { get; set; }
     public Department Department { get; set; }
 

@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Media\Applications\Presentations\" />
     <Folder Include="wwwroot\Media\Categories\Images\" />
     <Folder Include="wwwroot\Media\Departments\Licenses\" />
     <Folder Include="wwwroot\Media\Departments\Logos\" />
