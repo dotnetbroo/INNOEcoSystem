@@ -55,5 +55,5 @@ jobs:
           script: |
             cd ~/inno
             docker pull dotnetbro/inno-eco
-            docker-compose down && docker-compose up -d
+            docker-compose up -d
             docker rmi $(docker images -f dangling=true -q)
