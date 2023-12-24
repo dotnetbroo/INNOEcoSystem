@@ -1,5 +1,4 @@
-﻿using BCrypt.Net;
-using INNOEcoSystem.Domain.Entities.Users;
+﻿using INNOEcoSystem.Domain.Entities.Users;
 using INNOEcoSystem.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 

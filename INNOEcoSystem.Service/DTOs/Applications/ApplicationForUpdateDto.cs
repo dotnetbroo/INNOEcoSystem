@@ -1,7 +1,4 @@
-﻿using INNOEcoSystem.Domain.Entities.Departments;
-using INNOEcoSystem.Domain.Entities.Users;
-using INNOEcoSystem.Domain.Enums;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace INNOEcoSystem.Service.DTOs.Applications;
 

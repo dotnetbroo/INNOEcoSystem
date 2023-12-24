@@ -2,7 +2,7 @@
 
 namespace INNOEcoSystem.Service.DTOs.DepartmentAssets;
 
-public  class DepartmentAssetForCreationDto
+public class DepartmentAssetForCreationDto
 {
     public IFormFile formFile { get; set; }
 }

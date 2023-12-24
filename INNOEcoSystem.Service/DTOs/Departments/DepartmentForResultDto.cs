@@ -1,6 +1,6 @@
 ﻿namespace INNOEcoSystem.Service.DTOs.Departments;
 
-public  class DepartmentForResultDto
+public class DepartmentForResultDto
 {
     public long Id { get; set; }
     public string Name { get; set; }

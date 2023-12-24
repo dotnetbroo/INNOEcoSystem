@@ -70,7 +70,7 @@ public static class ServiceExtensions
         services.AddScoped<IApplicationService, ApplicationService>();
 
         //LocationAsset
-        services.AddScoped<ILocationAssetRepository,LocationAssetRepository>();
+        services.AddScoped<ILocationAssetRepository, LocationAssetRepository>();
         services.AddScoped<ILocationAssetService, LocationAssetService>();
 
         // Email

@@ -1,6 +1,4 @@
-﻿using INNOEcoSystem.Domain.Entities.Locations;
-
-namespace INNOEcoSystem.Service.DTOs.LocationsAsset;
+﻿namespace INNOEcoSystem.Service.DTOs.LocationsAsset;
 
 public class LocationAssetForResultDto
 {

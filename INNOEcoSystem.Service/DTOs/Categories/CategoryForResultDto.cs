@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace INNOEcoSystem.Service.DTOs.Categories;
+﻿namespace INNOEcoSystem.Service.DTOs.Categories;
 
 public class CategoryForResultDto
 {

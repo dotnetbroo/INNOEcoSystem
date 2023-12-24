@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Data.IRepositories;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Domain.Entities.Applications;
-using INNOEcoSystem.Domain.Entities.Users;
 using INNOEcoSystem.Domain.Enums;
-using INNOEcoSystem.Service.DTOs.Applications;
 using INNOEcoSystem.Service.Commons.Extensions;
-using INNOEcoSystem.Domain.Entities.Applications;
+using INNOEcoSystem.Service.Commons.Helpers;
+using INNOEcoSystem.Service.DTOs.Applications;
+using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.Applications;
+using Microsoft.EntityFrameworkCore;
 
 namespace INNOEcoSystem.Service.Services.Applications;
 public class ApplicationService : IApplicationService
@@ -70,7 +69,7 @@ public class ApplicationService : IApplicationService
             File.Delete(imageFullPath);
 
         var imageFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Presentation.FileName);
-        var imageRootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Applications","Presentations", imageFileName);
+        var imageRootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Applications", "Presentations", imageFileName);
         using (var stream = new FileStream(imageRootPath, FileMode.Create))
         {
             await dto.Presentation.CopyToAsync(stream);

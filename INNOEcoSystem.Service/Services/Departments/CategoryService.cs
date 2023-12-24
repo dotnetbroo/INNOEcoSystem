@@ -2,11 +2,9 @@
 using INNOEcoSystem.Data.IRepositories.Categories;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Domain.Entities.Departments;
-using INNOEcoSystem.Domain.Entities.Users;
 using INNOEcoSystem.Service.Commons.Extensions;
 using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.DTOs.Categories;
-using INNOEcoSystem.Service.DTOs.Users;
 using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.Departments;
 using Microsoft.EntityFrameworkCore;
