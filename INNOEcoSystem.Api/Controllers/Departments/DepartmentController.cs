@@ -4,10 +4,12 @@ using INNOEcoSystem.Service.DTOs.Department;
 using INNOEcoSystem.Service.DTOs.DepartmentAssets;
 using INNOEcoSystem.Service.DTOs.Departments;
 using INNOEcoSystem.Service.Interfaces.Department;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace INNOEcoSystem.Api.Controllers.Departments
 {
+    [Authorize(Policy = "Admins")]
     public class DepartmentController : BaseController
     {
         private readonly IDepartmentService _departmentService;
@@ -20,11 +22,11 @@ namespace INNOEcoSystem.Api.Controllers.Departments
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute(Name = "id")] long Id)
             => Ok(await _departmentService.RetrieveByIdAsync(Id));
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GeAllAsync([FromQuery] PaginationParams @params)
             => Ok(await _departmentService.RetrieveAllAsync(@params));
-
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] long id)
             => Ok(await _departmentService.RemoveAsync(id));
@@ -37,12 +39,12 @@ namespace INNOEcoSystem.Api.Controllers.Departments
         public async Task<IActionResult> UpdateAsync([FromRoute(Name = "id")] long id, [FromBody] DepartmentForUpdateDto departmentForUpdateDto)
             => Ok(await _departmentService.ModifyAsync(id, departmentForUpdateDto));
 
-
+        [AllowAnonymous]
         [HttpPost("Department/License/{id}")]
         public async Task<IActionResult> CreateLicenseAsync([FromRoute(Name = "id")] long id, [FromForm] DepartmentAssetForCreationDto file)
             => Ok(await _departmentService.CreateLicenseAsync(id, file));
 
-
+        [AllowAnonymous]
         [HttpPost("Department/Logo/{id}")]
         public async Task<IActionResult> CreateLogoAsync([FromRoute(Name = "id")] long id, [FromForm] DepartmentAssetForCreationDto file)
             => Ok(await _departmentService.CreateLogoAsync(id, file));
