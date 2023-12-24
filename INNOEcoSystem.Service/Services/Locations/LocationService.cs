@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using INNOEcoSystem.Service.Exceptions;
+using INNOEcoSystem.Data.IRepositories.Locations;
 using INNOEcoSystem.Domain.Configurations;
-using INNOEcoSystem.Service.DTOs.Locations;
 using INNOEcoSystem.Domain.Entities.Locations;
 using INNOEcoSystem.Service.Commons.Extensions;
-using INNOEcoSystem.Data.IRepositories.Locations;
+using INNOEcoSystem.Service.DTOs.Locations;
+using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.Location;
+using Microsoft.EntityFrameworkCore;
 
 namespace INNOEcoSystem.Service.Services.Locations;
 
@@ -92,7 +92,7 @@ public class LocationService : ILocationService
     {
         var locations = await _locationRepository
             .SelectAll()
-            .Include(l=>l.LacationAssets)
+            .Include(l => l.Assets)  
             .AsNoTracking()
             .ToPagedList(@params)
             .ToListAsync();
@@ -100,11 +100,12 @@ public class LocationService : ILocationService
         return _mapper.Map<IEnumerable<LocationForResultDto>>(locations);
     }
 
+
     public async Task<LocationForResultDto> RetrieveByIdAsync(long id)
     {
         var location = await _locationRepository.SelectAll()
             .Where(l => l.Id == id)
-            .Include(l=>l.LacationAssets)
+            .Include(l => l.Assets)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
