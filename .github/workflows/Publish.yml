@@ -38,3 +38,22 @@ jobs:
         run: docker login -u dotnetbro -p $PASSWORD #--password-stdin
       - name: Push Docker image
         run: docker push dotnetbro/inno-eco
+
+  deploy:
+    name: Deploy
+    needs: dockerize
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into AWS Ubuntu Server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            cd ~/inno
+            docker pull dotnetbro/inno-eco
+            docker-compose down && docker-compose up -d
+            docker rmi $(docker images -f dangling=true -q)
