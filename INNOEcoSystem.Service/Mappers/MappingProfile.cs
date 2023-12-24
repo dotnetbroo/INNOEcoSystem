@@ -24,11 +24,15 @@ public class MappingProfile : Profile
         CreateMap<User, UserForUpdateDto>().ReverseMap();
         CreateMap<User, UserForCreationDto>().ReverseMap();
         CreateMap<User, UserForChangePasswordDto>().ReverseMap();
+        CreateMap<User, UserImageResultDto>().ReverseMap();
+        CreateMap<User, UserImageUpdateDto>().ReverseMap();
 
         // Category
         CreateMap<Category, CategoryForCreationDto>().ReverseMap();
         CreateMap<Category, CategoryForUpdateDto>().ReverseMap();
         CreateMap<Category, CategoryForResultDto>().ReverseMap();
+        CreateMap<Category, CategoryImageForResultDto>().ReverseMap();
+        CreateMap<Category, CategoryImageForUpdateDto>().ReverseMap();
 
         // UserAddress
         CreateMap<Address, AddressForResultDto>().ReverseMap();

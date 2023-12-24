@@ -3,6 +3,7 @@ using INNOEcoSystem.Domain.Entities.Users;
 using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.DTOs.Logins;
 using INNOEcoSystem.Service.Exceptions;
+using INNOEcoSystem.Service.Interfaces.Accounts;
 using INNOEcoSystem.Service.Interfaces.Commons;
 
 namespace INNOEcoSystem.Service.Services.Accaunts;

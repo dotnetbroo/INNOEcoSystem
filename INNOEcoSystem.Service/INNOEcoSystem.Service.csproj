@@ -12,6 +12,7 @@
 	<PackageReference Include="MailKit" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.2" />
 	  <PackageReference Include="MimeKit" Version="4.3.0" />

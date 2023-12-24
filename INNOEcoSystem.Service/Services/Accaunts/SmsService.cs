@@ -1,4 +1,5 @@
-﻿using INNOEcoSystem.Domain.Entities.Users;
+﻿using INNOEcoSystem.Data.IRepositories;
+using INNOEcoSystem.Domain.Entities.Users;
 using INNOEcoSystem.Service.Interfaces.Accounts;
 using INNOEcoSystem.Service.Services.Accaunts.Models;
 using Microsoft.Extensions.Configuration;
@@ -10,10 +11,12 @@ namespace INNOEcoSystem.Service.Services.Users;
 public class SmsService : ISmsService
 {
     private readonly IConfiguration configuration;
+    private readonly IRepository<User> repository;
 
-    public SmsService(IConfiguration configuration)
+    public SmsService(IConfiguration configuration, IRepository<User> repository)
     {
         this.configuration = configuration;
+        this.repository = repository;
     }
     public async Task<string> GenerateTokenAsync()
     {
@@ -37,6 +40,8 @@ public class SmsService : ISmsService
 
     public async Task<bool> SendAsync(Sms message)
     {
+        var userSms = await repository.SelectAsync(u => u.IsDeleted == false);
+
         var token = await GenerateTokenAsync();
 
         using var client = new HttpClient();
@@ -45,11 +50,9 @@ public class SmsService : ISmsService
         // Add the Authorization header with the Bearer token
         request.Headers.Add("Authorization", $"Bearer {token}");
 
-        var user = new User();
-
         using var content = new MultipartFormDataContent();
-        content.Add(new StringContent($"{user.PhoneNumber}"), "mobile_phone");
-        content.Add(new StringContent($"{message.Message = "Siz muvoffaqiyatli ro'yxatdan o'tdingiz."} \n {message.Url = "https://yoshtadbirkor.uz/innoplatforma"}"), "message");
+        content.Add(new StringContent($"{message.PhoneNumber}"), "mobile_phone");
+        content.Add(new StringContent($"{message.Message}\n{message.Url}"), "message");
         content.Add(new StringContent($"{configuration["SmsConfig:from"]}"), "from");
         request.Content = content;
         await client.SendAsync(request);
