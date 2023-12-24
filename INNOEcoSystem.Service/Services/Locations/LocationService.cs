@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using INNOEcoSystem.Data.IRepositories.LocationAssets;
 using INNOEcoSystem.Data.IRepositories.Locations;
 using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Domain.Entities.Locations;
@@ -14,13 +15,16 @@ public class LocationService : ILocationService
 {
     private readonly IMapper _mapper;
     private readonly ILocationRepository _locationRepository;
+    private readonly ILocationAssetRepository locationAssetRepository;
 
     public LocationService(
         IMapper mapper,
-        ILocationRepository locationRepository)
+        ILocationRepository locationRepository,
+        ILocationAssetRepository locationAssetRepository)
     {
         _mapper = mapper;
         _locationRepository = locationRepository;
+        this.locationAssetRepository = locationAssetRepository;
     }
 
     public async Task<LocationForResultDto> CreateAsync(LocationForCreationDto dto)

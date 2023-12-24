@@ -22,7 +22,10 @@ public class DepartmentService : IDepartmentService
     private readonly ICategoryRepository _categoryRepository;
     private readonly ILocationRepository _locationRepository;
 
-    public DepartmentService(IMapper mapper, ICategoryRepository categoryRepository, ILocationRepository locationRepository, IDepartmentRepository departmentRepository)
+    public DepartmentService(IMapper mapper,
+        ICategoryRepository categoryRepository, 
+        ILocationRepository locationRepository, 
+        IDepartmentRepository departmentRepository)
     {
         _mapper = mapper;
         _locationRepository = locationRepository;

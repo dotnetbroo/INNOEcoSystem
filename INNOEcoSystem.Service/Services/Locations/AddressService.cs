@@ -36,7 +36,7 @@ public class AddressService : IAddressService
         if (userAddress is null)
             throw new INNOEcoSystemException(404, "Address is not found.");
 
-        _mapper.Map(userAddress, dto);
+        _mapper.Map(dto, userAddress);
         userAddress.UpdatedAt = DateTime.UtcNow;
 
         return _mapper.Map<AddressForResultDto>(userAddress);

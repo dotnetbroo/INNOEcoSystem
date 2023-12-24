@@ -45,14 +45,14 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("Number")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Number")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Presentation")
                         .HasColumnType("text");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<byte>("Status")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -80,9 +80,6 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Extension")
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -92,16 +89,7 @@ namespace INNOEcoSystem.Data.Migrations
                     b.Property<long?>("LocationId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
                     b.Property<string>("Path")
-                        .HasColumnType("text");
-
-                    b.Property<long>("Size")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Type")
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -334,7 +322,7 @@ namespace INNOEcoSystem.Data.Migrations
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Assets.LocationAsset", b =>
                 {
                     b.HasOne("INNOEcoSystem.Domain.Entities.Locations.Location", "Location")
-                        .WithMany("LacationAssets")
+                        .WithMany("Assets")
                         .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
@@ -377,7 +365,7 @@ namespace INNOEcoSystem.Data.Migrations
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Locations.Location", b =>
                 {
-                    b.Navigation("LacationAssets");
+                    b.Navigation("Assets");
                 });
 
             modelBuilder.Entity("INNOEcoSystem.Domain.Entities.Users.User", b =>

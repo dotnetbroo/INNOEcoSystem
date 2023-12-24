@@ -60,7 +60,7 @@ public class CategoryService : ICategoryService
     {
         var categoryToUpdate = await _categoryRepository.SelectAsync(u => u.Id == id && u.IsDeleted == false);
 
-        if (categoryToUpdate is not null)
+        if (categoryToUpdate is null)
             throw new INNOEcoSystemException(404, "Category is not found");
 
         #region Image
@@ -98,7 +98,7 @@ public class CategoryService : ICategoryService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (existingCategory is not null)
+        if (existingCategory is null)
             throw new INNOEcoSystemException(404, "Category is not found");
 
         #region Image
@@ -148,7 +148,7 @@ public class CategoryService : ICategoryService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (existingCategory is not null)
+        if (existingCategory is null)
             throw new INNOEcoSystemException(404, "Category is not found");
 
         return _mapper.Map<CategoryForResultDto>(existingCategory);
@@ -162,7 +162,7 @@ public class CategoryService : ICategoryService
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (existingCategory is not null)
+        if (existingCategory is null)
             throw new INNOEcoSystemException(404, "Category is not found");
 
         return _mapper.Map<CategoryForResultDto>(existingCategory);

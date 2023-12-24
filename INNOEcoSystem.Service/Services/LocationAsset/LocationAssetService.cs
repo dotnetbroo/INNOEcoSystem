@@ -8,7 +8,6 @@ using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.DTOs.LocationsAsset;
 using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.LocationAssets;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace INNOEcoSystem.Service.Services;
@@ -30,84 +29,120 @@ public class LocationAssetService : ILocationAssetService
 
 
 
-    public async Task<LocationAssetForResultDto> CreateAsync(long Id, IFormFile formFile)
+    public async Task<LocationAssetForResultDto> CreateAsync(LocationAssetForCreationDto dto)
     {
-
         var location = await _locationRepository.SelectAll()
-           .Where(c => c.Id == Id)
-           .AsNoTracking()
-           .FirstOrDefaultAsync();
+             .Where(e => e.Id == dto.LacationId)
+             .FirstOrDefaultAsync();
 
-        if (location is null || location?.IsDeleted == true)
+        if (location is null)
+            throw new INNOEcoSystemException(404, "Event is not found");
+
+
+        var WwwRootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "LocationAssets");
+        var assetsFolderPath = Path.Combine(WwwRootPath, "Media");
+        var ImagesFolderPath = Path.Combine(assetsFolderPath, "LocationAssets");
+
+        if (!Directory.Exists(assetsFolderPath))
         {
-            throw new INNOEcoSystemException(404, "Location is not found");
+            Directory.CreateDirectory(assetsFolderPath);
         }
 
-
-        var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(formFile.FileName);
-        var rootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Locations", "Assets", fileName);
-
-        using (var stream = new FileStream(rootPath, FileMode.Create))
+        if (!Directory.Exists(ImagesFolderPath))
         {
-            await formFile.CopyToAsync(stream);
+            Directory.CreateDirectory(ImagesFolderPath);
+        }
+        var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Path.FileName);
+
+        var fullPath = Path.Combine(WwwRootPath, fileName);
+
+        using (var stream = File.OpenWrite(fullPath))
+        {
+            await dto.Path.CopyToAsync(stream);
             await stream.FlushAsync();
             stream.Close();
         }
 
-        var mappedAsset = new LocationAsset()
+        string resultImage = Path.Combine("Media", "LocationAssets", fileName);
+
+        var mappedAsset = new LocationAsset
         {
-            Id = Id,
-            LacationId = Id,
-            Name = formFile.Name,
-            Size = formFile.Length,
-            Type = formFile.ContentType,
-            CreatedAt = DateTime.UtcNow,
-            Extension = Path.GetExtension(formFile.FileName),
-            Path = Path.Combine("Media", "Locations", "Assets", formFile.FileName)
+            LacationId = dto.LacationId,
         };
+        mappedAsset.CreatedAt = DateTime.UtcNow;
+        mappedAsset.Path = resultImage;
 
         var result = await _locationAssetRepository.InsertAsync(mappedAsset);
 
         return _mapper.Map<LocationAssetForResultDto>(result);
     }
 
-    public async Task<bool> RemoveAsync(long locationId, long id)
+    public async Task<bool> RemoveAsync(long id)
     {
-        var location = await _locationRepository.SelectAll()
-            .Where(l => l.Id == locationId)
-            .AsNoTracking()
-            .FirstOrDefaultAsync();
-
-        if (location is null || location?.IsDeleted == true)
-            throw new INNOEcoSystemException(404, "Location is not found");
-
-        var locationAsset = await _locationAssetRepository.SelectAll()
-            .Where(locationAsset => locationAsset.Id == id)
-            .AsNoTracking()
-            .FirstOrDefaultAsync();
-
-        if (locationAsset is null || locationAsset?.IsDeleted == true)
+        var location = await _locationAssetRepository.SelectAsync(l => l.Id == id && l.IsDeleted == false);
+        if (location is null)
             throw new INNOEcoSystemException(404, "Location Asset is not found");
 
-        return await _locationAssetRepository.DeleteAsync(id);
+        var locationn = await _locationRepository.SelectAsync(l => l.Id == location.LacationId && l.IsDeleted == false);
+        if (locationn is null)
+            throw new INNOEcoSystemException(404, "Location is not found");
+
+        var imageFullPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, location.Path);
+
+        if (File.Exists(imageFullPath))
+            File.Delete(imageFullPath);
+
+        location.IsDeleted = true;
+        await _locationAssetRepository.UpdateAsync(location);
+
+        return true;
+    }
+
+    public async Task<LocationAssetForResultDto> ModifyAsync(long id, LocationAssetForUpdateDto dto)
+    {
+        var locationAsset = await _locationAssetRepository.SelectAsync(l => l.Id == id && l.IsDeleted == false);
+        if (locationAsset is null)
+            throw new INNOEcoSystemException(404, "Location asset is not found");
+
+        var imageFullPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, locationAsset.Path);
+
+        if (File.Exists(imageFullPath))
+            File.Delete(imageFullPath);
+
+        var imageFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Path.FileName);
+        var imageRootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Locations", "Assets", imageFileName);
+        using (var stream = new FileStream(imageRootPath, FileMode.Create))
+        {
+            await dto.Path.CopyToAsync(stream);
+            await stream.FlushAsync();
+            stream.Close();
+        }
+        string imageResult = Path.Combine("Media", "Locations", "Assets", imageFileName);
+
+        var mappedAsset = _mapper.Map(dto, locationAsset);
+        mappedAsset.UpdatedAt = DateTime.UtcNow;
+        mappedAsset.Path = imageResult;
+
+        return _mapper.Map<LocationAssetForResultDto>(mappedAsset);
     }
 
     public async Task<IEnumerable<LocationAssetForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
 
         var LocationAssets = await _locationAssetRepository.SelectAll()
-            .ToPagedList(@params)
+            .Where(l => l.IsDeleted == false)
             .AsNoTracking()
+            .ToPagedList(@params)
             .ToListAsync();
 
         return _mapper.Map<IEnumerable<LocationAssetForResultDto>>(LocationAssets);
 
     }
 
-    public async Task<LocationAssetForResultDto> RetrieveByIdAsync(long locationId, long id)
+    public async Task<LocationAssetForResultDto> RetrieveByIdAsync(long id)
     {
         var locationAsset = await _locationRepository.SelectAll()
-            .Where(l => l.Id == locationId)
+            .Where(l => l.Id == id && l.IsDeleted == false)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 

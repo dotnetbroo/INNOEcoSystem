@@ -57,5 +57,7 @@ public class MappingProfile : Profile
 
         //LocationAsset
         CreateMap<LocationAsset, LocationAssetForResultDto>().ReverseMap();
+        CreateMap<LocationAsset, LocationAssetForCreationDto>().ReverseMap();
+        CreateMap<LocationAsset, LocationAssetForUpdateDto>().ReverseMap();
     }
 }

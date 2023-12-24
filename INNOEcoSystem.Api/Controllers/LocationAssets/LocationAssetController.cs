@@ -1,5 +1,7 @@
 ﻿using INNOEcoSystem.Api.Controllers.Commons;
 using INNOEcoSystem.Domain.Configurations;
+using INNOEcoSystem.Service.DTOs.LocationsAsset;
+using INNOEcoSystem.Service.DTOs.Users;
 using INNOEcoSystem.Service.Interfaces.LocationAssets;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -15,23 +17,25 @@ namespace INNOEcoSystem.Api.Controllers.LocationAssets
             _locationAssetService = locationAssetService;
         }
 
-        [HttpGet("{location-id}/{id}")]
-        public async Task<IActionResult> GetById([FromRoute(Name = "location-id")] long locationId, long id)
-            => Ok(await _locationAssetService.RetrieveByIdAsync(locationId, id));
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromForm] LocationAssetForCreationDto dto)
+            => Ok(await _locationAssetService.CreateAsync(dto));
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync([FromQuery] PaginationParams @params)
             => Ok(await _locationAssetService.RetrieveAllAsync(@params));
 
-        [HttpDelete("{location-id}/{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute(Name = "location-id")] long locationId, long id)
-            => Ok(await _locationAssetService.RemoveAsync(locationId, id));
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute(Name = "id")] long id)
+            => Ok(await _locationAssetService.RetrieveByIdAsync(id));
 
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute(Name = "id")] long id)
+            => Ok(await _locationAssetService.RemoveAsync(id));
 
-        [HttpPost("{location-id}")]
-        public async Task<IActionResult> CreateAsync([FromRoute(Name = "location-id")] long id, [Required] IFormFile formFile)
-            => Ok(await _locationAssetService.CreateAsync(id, formFile));
-
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync([FromRoute(Name = "id")] long id, [FromForm] LocationAssetForUpdateDto dto)
+            => Ok(await this._locationAssetService.ModifyAsync(id, dto));
     }
 }
