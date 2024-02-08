@@ -1,8 +1,8 @@
 ﻿namespace INNOEcoSystem.Domain.Enums;
 
-public  enum ApplicationStatus
+public enum ApplicationStatus : byte
 {
-    Pending,
+    Pending = 0,
     Process,
     Accepted,
     Rejected

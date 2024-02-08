@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,7 +25,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="wwwroot\Media\Applications\Presentations\" />
+    <Folder Include="wwwroot\Media\Applications\Presentations\" />
+    <Folder Include="wwwroot\Media\Categories\Images\" />
+    <Folder Include="wwwroot\Media\Departments\Licenses\" />
+    <Folder Include="wwwroot\Media\Departments\Logos\" />
+    <Folder Include="wwwroot\Media\Locations\Assets\" />
+    <Folder Include="wwwroot\Media\LocationAssets\" />
+    <Folder Include="wwwroot\Media\UserProfilePictures\Images\" />
+    <Folder Include="wwwroot\Media\UserProfilePictures\Images\" />
   </ItemGroup>
 
 </Project>

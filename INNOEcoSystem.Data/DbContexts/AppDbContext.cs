@@ -1,6 +1,6 @@
 ﻿using INNOEcoSystem.Domain.Entities.Applications;
-using INNOEcoSystem.Domain.Entities.Departments;
 using INNOEcoSystem.Domain.Entities.Assets;
+using INNOEcoSystem.Domain.Entities.Departments;
 using INNOEcoSystem.Domain.Entities.Locations;
 using INNOEcoSystem.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
@@ -20,4 +20,11 @@ public class AppDbContext : DbContext
     public DbSet<Category> DepartmentCategories { get; set; }
 
 
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .Property(u => u.IsDeleted)
+            .HasColumnName("IsDeleted");
+    }
 }

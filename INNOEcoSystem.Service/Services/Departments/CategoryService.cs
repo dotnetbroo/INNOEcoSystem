@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using INNOEcoSystem.Data.IRepositories.Categories;
+using INNOEcoSystem.Domain.Configurations;
 using INNOEcoSystem.Domain.Entities.Departments;
+using INNOEcoSystem.Service.Commons.Extensions;
+using INNOEcoSystem.Service.Commons.Helpers;
 using INNOEcoSystem.Service.DTOs.Categories;
 using INNOEcoSystem.Service.Exceptions;
 using INNOEcoSystem.Service.Interfaces.Departments;
@@ -23,42 +26,30 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryForResultDto> CreateAsync(CategoryForCreationDto dto)
     {
-        var @category = await _categoryRepository.SelectAll()
-            .Where(c => c.Name.ToLower() == dto.Name.ToLower())
+        var existingCategory = await _categoryRepository.SelectAll()
+            .Where(c => c.Name.ToLower() == dto.Name.ToLower() && c.IsDeleted == false)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (@category is not null)
-            throw new INNOEcoSystemException(404, "Category is not found");
+        if (existingCategory is not null)
+            throw new INNOEcoSystemException(400, "Category is already exists");
 
-        var WwwRootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Category");
-        var AssetsFolderPath = Path.Combine(WwwRootPath, "Media");
-        var ImagesFolderPath = Path.Combine(AssetsFolderPath, "Category");
-
-        if (!Directory.Exists(AssetsFolderPath))
-        {
-            Directory.CreateDirectory(AssetsFolderPath);
-        }
-
-        if (!Directory.Exists(ImagesFolderPath))
-        {
-            Directory.CreateDirectory(ImagesFolderPath);
-        }
-        var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Image.FileName);
-
-        var fullPath = Path.Combine(WwwRootPath, fileName);
-
-        using (var stream = File.OpenWrite(fullPath))
+        #region Image
+        var imageFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Image.FileName);
+        var imageRootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Categories", "Images", imageFileName);
+        using (var stream = new FileStream(imageRootPath, FileMode.Create))
         {
             await dto.Image.CopyToAsync(stream);
             await stream.FlushAsync();
             stream.Close();
         }
-
-        string resultImage = Path.Combine("Media", "Category", fileName);
+        string imageResult = Path.Combine("Media", "Categories", "Images", imageFileName);
+        #endregion
 
         var mapped = _mapper.Map<Category>(dto);
-        mapped.Image = resultImage;
+        mapped.CreatedAt = DateTime.UtcNow;
+        mapped.Image = imageResult;
+
         var result = await _categoryRepository.InsertAsync(mapped);
 
         return _mapper.Map<CategoryForResultDto>(result);
@@ -67,83 +58,140 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryForResultDto> ModifyAsync(long id, CategoryForUpdateDto dto)
     {
-        var @category = await _categoryRepository.SelectAll()
-            .Where(c => c.Name.ToLower() == dto.Name.ToLower())
-            .AsNoTracking()
-            .FirstOrDefaultAsync();
+        var categoryToUpdate = await _categoryRepository.SelectAsync(u => u.Id == id && u.IsDeleted == false);
 
-        if (@category is not null)
+        if (categoryToUpdate is null)
             throw new INNOEcoSystemException(404, "Category is not found");
 
-        var fullPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, category.Image);
+        #region Image
+        var imageFilepath = Path.Combine(WebHostEnviromentHelper.WebRootPath, categoryToUpdate.Image);
 
-        if (File.Exists(fullPath))
-        {
-            File.Delete(fullPath);
-        }
+        if (File.Exists(imageFilepath))
+            File.Delete(imageFilepath);
 
-        var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Image.FileName);
-        var rootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Category", fileName);
-        using (var stream = new FileStream(rootPath, FileMode.Create))
+        var imageFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Image.FileName);
+        var imageRootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Categories", "Images", imageFileName);
+        using (var stream = new FileStream(imageRootPath, FileMode.Create))
         {
             await dto.Image.CopyToAsync(stream);
             await stream.FlushAsync();
             stream.Close();
         }
-        string resultImage = Path.Combine("Media", "Category", fileName);
+        string imageResult = Path.Combine("Media", "Categories", "Images", imageFileName);
 
-        var mapped = _mapper.Map(dto, category);
-        mapped.Image = resultImage;
+        #endregion
+
+        var mapped = this._mapper.Map(dto, categoryToUpdate);
         mapped.UpdatedAt = DateTime.UtcNow;
+        mapped.Image = imageResult;
 
-        var result = await _categoryRepository.UpdateAsync(mapped);
-        return _mapper.Map<CategoryForResultDto>(result);
+        await this._categoryRepository.UpdateAsync(mapped);
+
+        return _mapper.Map<CategoryForResultDto>(mapped);
 
     }
 
     public async Task<bool> RemoveAsync(long id)
     {
-        var @category = await _categoryRepository.SelectAll()
-            .Where(c => c.Id == id)
+        var existingCategory = await _categoryRepository.SelectAll()
+            .Where(c => c.Id == id && c.IsDeleted == false)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (@category is not null)
+        if (existingCategory is null)
             throw new INNOEcoSystemException(404, "Category is not found");
 
-        var fullPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, category.Image);
+        #region Image
+        var imageFilepath = Path.Combine(WebHostEnviromentHelper.WebRootPath, existingCategory.Image);
 
-        if (File.Exists(fullPath))
-        {
-            File.Delete(fullPath);
-        }
+        if (File.Exists(imageFilepath))
+            File.Delete(imageFilepath);
+        #endregion
 
-        return await _categoryRepository.DeleteAsync(id);
+        existingCategory.IsDeleted = true;
+        await _categoryRepository.UpdateAsync(existingCategory);
+
+        return true;
 
     }
 
-    public async Task<IEnumerable<CategoryForResultDto>> RetrieveAllAsync()
+    public async Task<IEnumerable<CategoryForResultDto>> RetrieveAllAsync(PaginationParams @params)
     {
-        var categories = await _categoryRepository
+        var existingCategory = await _categoryRepository
             .SelectAll()
+            .Where(c => c.IsDeleted == false)
             .AsNoTracking()
+            .ToPagedList(@params)
             .ToListAsync();
 
-        return _mapper.Map<IEnumerable<CategoryForResultDto>>(categories);
+        return _mapper.Map<IEnumerable<CategoryForResultDto>>(existingCategory);
+
+    }
+
+    public async Task<IEnumerable<CategoryForResultDto>> RetrieveAllDeletedCategoriesAsync(PaginationParams @params)
+    {
+        var existingCategory = await _categoryRepository
+            .SelectAll()
+            .Where(c => c.IsDeleted == true)
+            .AsNoTracking()
+            .ToPagedList(@params)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<CategoryForResultDto>>(existingCategory);
 
     }
 
     public async Task<CategoryForResultDto> RetrieveByIdAsync(long id)
     {
-        var @category = await _categoryRepository.SelectAll()
-            .Where(c => c.Id == id)
+        var existingCategory = await _categoryRepository.SelectAll()
+            .Where(c => c.Id == id && c.IsDeleted == false)
             .AsNoTracking()
             .FirstOrDefaultAsync();
 
-        if (@category is not null)
+        if (existingCategory is null)
             throw new INNOEcoSystemException(404, "Category is not found");
 
-        return _mapper.Map<CategoryForResultDto>(category);
+        return _mapper.Map<CategoryForResultDto>(existingCategory);
 
+    }
+
+    public async Task<CategoryForResultDto> RetrieveByNameAsync(string name)
+    {
+        var existingCategory = await _categoryRepository.SelectAll()
+            .Where(c => c.Name == name && c.IsDeleted == false)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
+
+        if (existingCategory is null)
+            throw new INNOEcoSystemException(404, "Category is not found");
+
+        return _mapper.Map<CategoryForResultDto>(existingCategory);
+    }
+
+    public async Task<CategoryImageForResultDto> ModifyCategoryImageAsunc(long categoryId, CategoryImageForUpdateDto dto)
+    {
+        var category = await _categoryRepository.SelectAsync(u => u.Id == categoryId && u.IsDeleted == false);
+        if (category is null)
+            throw new INNOEcoSystemException(404, "User is not found");
+
+        var imageFullPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, category.Image);
+
+        if (File.Exists(imageFullPath))
+            File.Delete(imageFullPath);
+
+        var imageFileName = Guid.NewGuid().ToString("N") + Path.GetExtension(dto.Image.FileName);
+        var imageRootPath = Path.Combine(WebHostEnviromentHelper.WebRootPath, "Media", "Categories", "Images", imageFileName);
+        using (var stream = new FileStream(imageRootPath, FileMode.Create))
+        {
+            await dto.Image.CopyToAsync(stream);
+            await stream.FlushAsync();
+            stream.Close();
+        }
+        string imageResult = Path.Combine("Media", "Categories", "Images", imageFileName);
+
+        var mappedImage = _mapper.Map(dto, category);
+        mappedImage.Image = imageResult;
+
+        return _mapper.Map<CategoryImageForResultDto>(mappedImage);
     }
 }
